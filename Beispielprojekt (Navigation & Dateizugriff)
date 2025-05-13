@@ -1,0 +1,92 @@
+# Pfad zur Fragen-Datei (bitte achte auf doppelte Backslashes oder r""-String)
+DATEIPFAD = r"C:\Users\steffen.schrage\Downloads\Simulator\fragen.txt"
+
+def frage_hinzufuegen(pfad):
+    print("\n🔹 Neue Frage hinzufügen:")
+    frage = input("Frage: ")
+    a = input("Antwort A: ")
+    b = input("Antwort B: ")
+    c = input("Antwort C: ")
+    d = input("Antwort D: ")
+    richtige_antwort = input("Welche ist die richtige Antwort? (A, B, C oder D): ").upper()
+
+    with open(pfad, "a", encoding="utf-8") as f:
+        f.write(f"{frage}\n")
+        f.write(f"A) {a}\n")
+        f.write(f"B) {b}\n")
+        f.write(f"C) {c}\n")
+        f.write(f"D) {d}\n")
+        f.write(f"Antwort: {richtige_antwort}\n\n")
+
+    print("✅ Frage gespeichert!\n")
+
+
+def fragen_laden(pfad):
+    fragen_liste = []
+    try:
+        with open(pfad, "r", encoding="utf-8") as f:
+            inhalt = f.read()
+    except FileNotFoundError:
+        print("❗ Datei nicht gefunden. Erstelle zuerst Fragen.")
+        return []
+
+    fragen_bloecke = inhalt.strip().split("\n\n")
+    for block in fragen_bloecke:
+        zeilen = block.strip().split("\n")
+        if len(zeilen) < 6:
+            continue  # überspringe unvollständige Einträge
+        frage = zeilen[0]
+        optionen = zeilen[1:5]
+        antwort = zeilen[5].split(":")[1].strip()
+        fragen_liste.append({
+            "frage": frage,
+            "optionen": optionen,
+            "antwort": antwort
+        })
+    return fragen_liste
+
+
+def quiz_starten(fragen):
+    punkte = 0
+    for i, frage in enumerate(fragen, 1):
+        print(f"\nFrage {i}: {frage['frage']}")
+        for option in frage["optionen"]:
+            print(option)
+        user_input = input("Deine Antwort (A, B, C oder D): ").upper()
+
+        if user_input == frage["antwort"]:
+            print("✅ Richtig!")
+            punkte += 1
+        else:
+            print(f"❌ Falsch. Richtige Antwort: {frage['antwort']}")
+
+    print(f"\n📊 Du hast {punkte} von {len(fragen)} richtig beantwortet.")
+
+
+# ---------------------------
+# Hauptmenü
+# ---------------------------
+def main():
+    while True:
+        print("\n📘 Prüfungssimulator")
+        print("1 - Neue Frage hinzufügen")
+        print("2 - Quiz starten")
+        print("3 - Beenden")
+
+        auswahl = input("Wähle eine Option (1-3): ")
+
+        if auswahl == "1":
+            frage_hinzufuegen(DATEIPFAD)
+        elif auswahl == "2":
+            fragen = fragen_laden(DATEIPFAD)
+            if fragen:
+                quiz_starten(fragen)
+        elif auswahl == "3":
+            print("👋 Auf Wiedersehen!")
+            break
+        else:
+            print("❌ Ungültige Eingabe.")
+
+if __name__ == "__main__":
+    main()
+
