@@ -1,0 +1,16 @@
+import tkinter as tk
+import pandas as pd
+
+def hallo():
+    label.config(text="Hallo Welt!")
+
+fenster = tk.Tk()
+fenster.title("Meine GUI")
+
+button = tk.Button(fenster, text="Klick mich", command=hallo)
+button.pack()
+
+label = tk.Label(fenster, text="")
+label.pack()
+
+fenster.mainloop()
