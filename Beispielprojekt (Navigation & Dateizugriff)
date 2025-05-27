@@ -9,7 +9,7 @@ def frage_hinzufuegen(pfad):
     c = input("Antwort C: ")
     d = input("Antwort D: ")
     richtige_antwort = input("Welche ist die richtige Antwort? (A, B, C oder D): ").upper()
-
+hallo
     with open(pfad, "a", encoding="utf-8") as f:
         f.write(f"{frage}\n")
         f.write(f"A) {a}\n")
