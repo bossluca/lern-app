@@ -1,0 +1,109 @@
+import tkinter as tk
+from tkinter import messagebox
+import csv
+import os
+import random
+
+CSV_FILE = "aufgaben.csv"
+
+def save_task(thema, frage, antwort):
+    with open(CSV_FILE, "a", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow([thema, frage, antwort])
+
+def get_random_task():
+    if not os.path.exists(CSV_FILE):
+        return None
+    with open(CSV_FILE, "r", encoding="utf-8") as f:
+        reader = list(csv.reader(f))
+        if not reader:
+            return None
+        return random.choice(reader)
+
+def login():
+    user = entry_user.get()
+    pw = entry_pw.get()
+    if user == "admin" and pw == "admin123":
+        messagebox.showinfo("Login", f"Willkommen, {user}!")
+        root.destroy()
+        show_admin_window()
+    elif user == "user" and pw == "user123":
+        messagebox.showinfo("Login", f"Willkommen, {user}!")
+        root.destroy()
+        show_user_window()
+    else:
+        messagebox.showerror("Login", "Falscher Benutzername oder Passwort")
+
+def show_admin_window():
+    admin = tk.Tk()
+    admin.title("Admin: Aufgabe hinzufügen")
+
+    tk.Label(admin, text="Thema:").pack()
+    entry_thema = tk.Entry(admin)
+    entry_thema.pack()
+
+    tk.Label(admin, text="Frage:").pack()
+    entry_frage = tk.Entry(admin)
+    entry_frage.pack()
+
+    tk.Label(admin, text="Antwort:").pack()
+    entry_antwort = tk.Entry(admin)
+    entry_antwort.pack()
+
+    def speichern():
+        thema = entry_thema.get()
+        frage = entry_frage.get()
+        antwort = entry_antwort.get()
+        if thema and frage and antwort:
+            save_task(thema, frage, antwort)
+            messagebox.showinfo("Gespeichert", "Aufgabe gespeichert!")
+            entry_thema.delete(0, tk.END)
+            entry_frage.delete(0, tk.END)
+            entry_antwort.delete(0, tk.END)
+        else:
+            messagebox.showwarning("Fehler", "Bitte alle Felder ausfüllen.")
+
+    tk.Button(admin, text="Aufgabe speichern", command=speichern).pack()
+    tk.Button(admin, text="Beenden", command=admin.destroy).pack()
+    admin.mainloop()
+
+def show_user_window():
+    aufgabe = get_random_task()
+    user_win = tk.Tk()
+    user_win.title("Aufgabe lösen")
+
+    if aufgabe:
+        tk.Label(user_win, text=f"Thema: {aufgabe[0]}").pack()
+        tk.Label(user_win, text=f"Frage: {aufgabe[1]}").pack()
+        tk.Label(user_win, text="Antwort:").pack()
+        entry_user_antwort = tk.Entry(user_win)
+        entry_user_antwort.pack()
+
+        def pruefen():
+            if entry_user_antwort.get().strip().lower() == aufgabe[2].strip().lower():
+                messagebox.showinfo("Richtig", "Antwort ist korrekt!")
+            else:
+                messagebox.showerror("Falsch", f"Falsch! Die richtige Antwort ist: {aufgabe[2]}")
+
+        tk.Button(user_win, text="Antwort prüfen", command=pruefen).pack()
+    else:
+        tk.Label(user_win, text="Keine Aufgaben vorhanden.").pack()
+
+    tk.Button(user_win, text="Beenden", command=user_win.destroy).pack()
+    user_win.mainloop()
+
+# Login-Fenster
+root = tk.Tk()
+root.title("Login")
+
+tk.Label(root, text="Benutzername:").pack()
+entry_user = tk.Entry(root)
+entry_user.pack()
+
+tk.Label(root, text="Passwort:").pack()
+entry_pw = tk.Entry(root, show="*")
+entry_pw.pack()
+
+tk.Button(root, text="Anmelden", command=login).pack()
+
+root.mainloop()
