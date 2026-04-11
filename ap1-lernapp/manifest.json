@@ -1,0 +1,27 @@
+{
+  "name": "AP1 Trainer – Lern-App",
+  "short_name": "AP1 Trainer",
+  "description": "Lern-App für die IHK Abschlussprüfung Teil 1 – Fachinformatiker Systemintegration",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#0a0a14",
+  "background_color": "#0a0a14",
+  "lang": "de",
+  "categories": ["education"],
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

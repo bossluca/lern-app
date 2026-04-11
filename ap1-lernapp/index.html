@@ -2,27 +2,32 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Lern-App für die IHK Abschlussprüfung Teil 1 – Fachinformatiker Systemintegration">
-  <title>AP1 Lern-App – Fachinformatiker Systemintegration</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Lern-App für die IHK Abschlussprüfung Teil 1 – Fachinformatiker Systemintegration. Quiz, Karteikarten, Spaced Repetition und Klausur-Simulator.">
+  <meta name="theme-color" content="#0a0a14">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="AP1 Trainer">
+  <title>AP1 Trainer – Fachinformatiker Systemintegration</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" type="image/png" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div id="app">
-    <!-- Navbar -->
-    <nav class="navbar">
-      <div class="navbar__logo" onclick="router.go('dashboard')">🎓 AP1 Trainer</div>
-      <div class="navbar__nav">
-        <button class="navbar__btn" data-route="dashboard" onclick="router.go('dashboard')">Dashboard</button>
-        <button class="navbar__btn" data-route="flashcards" onclick="router.go('flashcards')">Karteikarten</button>
-        <button class="navbar__btn" data-route="quiz" onclick="router.go('quiz')">Quiz</button>
-        <button class="navbar__btn" data-route="manage" onclick="router.go('manage')">Verwalten</button>
-      </div>
-    </nav>
+  <div id="app" class="app">
+    <!-- Sidebar (Desktop) -->
+    <aside id="sidebar" class="sidebar"></aside>
 
-    <!-- Content gets injected here -->
-    <main id="main"></main>
+    <!-- Main Content -->
+    <main id="main" class="main"></main>
   </div>
+
+  <!-- Bottom Tab Bar (Mobile) -->
+  <nav id="bottombar" class="bottombar"></nav>
+
+  <!-- Toast container -->
+  <div id="toast-container"></div>
 
   <script src="app.js"></script>
 </body>
