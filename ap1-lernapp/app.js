@@ -238,6 +238,22 @@ const sr = {
     return due;
   },
 
+  getWeakQuestions() {
+    const topics = store.getTopics();
+    const weak = [];
+    topics.forEach((tp, ti) => {
+      (tp.fragen || []).forEach((f, fi) => {
+        const id = `${ti}_${fi}`;
+        const c = this.getCard(id);
+        if (c.box <= 2) {
+          weak.push({ ...f, _topic: tp.thema, _emoji: tp.emoji || '📚', _srId: id, _sr: c });
+        }
+      });
+    });
+    // Return max 30 random weak questions
+    return shuffle(weak).slice(0, 30);
+  },
+
   getBoxDistribution() {
     const data = this.load();
     const boxes = [0,0,0,0,0,0];
@@ -283,6 +299,7 @@ const router = {
       case 'dashboard':     renderDashboard(main); break;
       case 'learn':         renderLearn(main); break;
       case 'learn-go':      renderLearnSession(main); break;
+      case 'learn-weak':    renderLearnSession(main, { sessionType: 'weak' }); break;
       case 'flashcards':    renderFlashcardsSelect(main); break;
       case 'flashcards-go': renderFlashcards(main, params); break;
       case 'quiz':          renderQuizSelect(main); break;
@@ -512,6 +529,16 @@ function renderLearn(root) {
     overview.appendChild(h('p', { style: 'color:var(--green);font-weight:600;' }, 'Alle Karten für heute gelernt!'));
     overview.appendChild(h('p', { style: 'color:var(--text3);font-size:0.85rem;margin-top:4px;' }, 'Komm morgen wieder für die nächste Session.'));
   }
+  
+  const weakCount = sr.getWeakQuestions().length;
+  if (weakCount > 0) {
+    overview.appendChild(h('button', {
+      className: 'btn btn-secondary',
+      style: 'margin-top:20px;',
+      onClick: () => router.go('learn-weak')
+    }, '🎯 Schwachstellen trainieren'));
+  }
+  
   screen.appendChild(overview);
 
   // Box distribution
@@ -536,8 +563,9 @@ function renderLearn(root) {
   root.appendChild(screen);
 }
 
-function renderLearnSession(root) {
-  const due = sr.getDueQuestions();
+function renderLearnSession(root, params = {}) {
+  const isWeak = params.sessionType === 'weak';
+  const due = isWeak ? sr.getWeakQuestions() : sr.getDueQuestions();
   if (due.length === 0) { router.go('learn'); return; }
 
   let idx = 0;
@@ -552,7 +580,9 @@ function renderLearnSession(root) {
 
     // Progress
     screen.appendChild(h('div', { className: 'flashcard-progress' },
-      `${idx + 1} / ${due.length}  ·  ${q._emoji} ${q._topic}  ·  Box ${q._sr.box}`));
+      isWeak ? `🎯 Schwachstellen: ${idx + 1} / ${due.length}  ·  ${q._emoji} ${q._topic}` 
+             : `${idx + 1} / ${due.length}  ·  ${q._emoji} ${q._topic}  ·  Box ${q._sr.box}`
+    ));
 
     // Card
     const cardWrap = h('div', { className: 'learn-card' });
@@ -560,11 +590,18 @@ function renderLearnSession(root) {
     card.appendChild(h('div', { style: 'font-size:0.72rem;color:var(--text3);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px;font-weight:600;' }, 'FRAGE'));
     card.appendChild(h('div', { className: 'heading-md', style: 'line-height:1.7;' }, q.frage));
 
+    if (q.bild) {
+      card.appendChild(h('img', { src: q.bild, style: 'max-width:100%; max-height:200px; border-radius:8px; margin:16px auto 0;' }));
+    }
+
     if (revealed) {
       card.appendChild(h('div', { style: 'width:60px;height:1px;background:var(--glass-border2);margin:20px auto;' }));
       card.appendChild(h('div', { style: 'font-size:0.72rem;color:var(--teal);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;font-weight:600;' }, 'ANTWORT'));
       const ansText = q.typ === 'mc' ? q.optionen[q.antwort] : q.antwort;
       card.appendChild(h('div', { style: 'font-size:1.05rem;color:var(--text);line-height:1.6;' }, ansText));
+      if (q.erklaerung) {
+         card.appendChild(h('div', { style: 'margin-top:16px; font-size:0.85rem; color:var(--text2); background:var(--bg3); padding:12px; border-radius:6px; border-left:3px solid var(--accent); white-space:pre-wrap; text-align:left;' }, q.erklaerung));
+      }
     }
     cardWrap.appendChild(card);
     screen.appendChild(cardWrap);
@@ -677,12 +714,18 @@ function renderFlashcards(root, params) {
     const front = h('div', { className: 'flashcard__front' });
     front.appendChild(h('div', { className: 'flashcard__label' }, 'Frage'));
     front.appendChild(h('div', { className: 'flashcard__text' }, q.frage));
+    if (q.bild) {
+      front.appendChild(h('img', { src: q.bild, style: 'max-width:100%; max-height:120px; border-radius:8px; margin:12px 0;' }));
+    }
     front.appendChild(h('div', { className: 'flashcard__hint' }, '👆 Klicken zum Umdrehen'));
 
     const back = h('div', { className: 'flashcard__back' });
     back.appendChild(h('div', { className: 'flashcard__label' }, 'Antwort'));
     const answerText = q.typ === 'mc' ? q.optionen[q.antwort] : q.antwort;
     back.appendChild(h('div', { className: 'flashcard__text' }, answerText));
+    if (q.erklaerung) {
+      back.appendChild(h('div', { style: 'margin-top:16px; font-size:0.85rem; color:var(--text2);' }, q.erklaerung));
+    }
 
     card.appendChild(front);
     card.appendChild(back);
@@ -792,6 +835,9 @@ function renderQuiz(root, params) {
     const qc = h('div', { className: 'quiz-question' });
     qc.appendChild(h('div', { className: 'quiz-question__topic' }, `${q._emoji} ${q._topic}`));
     qc.appendChild(h('div', { className: 'quiz-question__text' }, q.frage));
+    if (q.bild) {
+      qc.appendChild(h('img', { src: q.bild, style: 'max-width:100%; max-height:200px; border-radius:8px; margin-top:16px;' }));
+    }
     screen.appendChild(qc);
 
     const feedbackEl = h('div', { id: 'quiz-feedback' });
@@ -810,7 +856,7 @@ function renderQuiz(root, params) {
             [...opts.children].forEach(b => b.classList.add('disabled'));
             if (isCorrect) score++;
             stats.recordAnswer(q._topic, isCorrect);
-            showFeedback(feedbackEl, isCorrect, q.optionen[q.antwort]);
+            showFeedback(feedbackEl, isCorrect, q.optionen[q.antwort], q.erklaerung);
             nextBtnWrap.style.display = 'block';
           }
         }, opt);
@@ -834,7 +880,7 @@ function renderQuiz(root, params) {
           inp.disabled = true;
           if (isCorrect) score++;
           stats.recordAnswer(q._topic, isCorrect);
-          showFeedback(feedbackEl, isCorrect, q.antwort);
+          showFeedback(feedbackEl, isCorrect, q.antwort, q.erklaerung);
           nextBtnWrap.style.display = 'block';
           checkBtn.style.display = 'none';
         }
@@ -862,10 +908,14 @@ function renderQuiz(root, params) {
   renderQ();
 }
 
-function showFeedback(el, isCorrect, correctAnswer) {
+function showFeedback(el, isCorrect, correctAnswer, erklaerung) {
+  if (navigator.vibrate) navigator.vibrate(isCorrect ? [100] : [50, 50, 50]);
   el.innerHTML = '';
   const fb = h('div', { className: `quiz-feedback ${isCorrect ? 'correct' : 'wrong'}` });
   fb.textContent = isCorrect ? '✅ Richtig!' : `❌ Falsch! Richtige Antwort: ${correctAnswer}`;
+  if (erklaerung) {
+    fb.appendChild(h('div', { style: 'margin-top:12px; font-size:0.85rem; padding-top:8px; border-top:1px dashed rgba(255,255,255,0.2); white-space:pre-wrap; font-weight:normal;' }, erklaerung));
+  }
   el.appendChild(fb);
 }
 
@@ -975,16 +1025,38 @@ function renderExamSetup(root) {
   });
   screen.appendChild(tOptions);
 
+  // Hardcore Modus
+  screen.appendChild(h('h3', { className: 'heading-md', style: 'margin-bottom:8px; margin-top:20px;' }, '🔥 Modus'));
+  let isHardcore = false;
+  const hcWrap = h('div', { className: 'glass-card', style: 'padding:16px; margin-bottom:20px; display:flex; align-items:center; gap:12px; cursor:pointer;' });
+  const hcCb = h('input', { type: 'checkbox', style: 'width:24px;height:24px; accent-color:var(--red); cursor:pointer;' });
+  hcWrap.addEventListener('click', (e) => { 
+    if(e.target !== hcCb) hcCb.checked = !hcCb.checked;
+    isHardcore = hcCb.checked;
+    hcWrap.style.borderColor = isHardcore ? 'var(--red)' : '';
+  });
+  hcCb.addEventListener('click', (e) => e.stopPropagation());
+  hcCb.addEventListener('change', () => {
+    isHardcore = hcCb.checked;
+    hcWrap.style.borderColor = isHardcore ? 'var(--red)' : '';
+  });
+  hcWrap.appendChild(hcCb);
+  hcWrap.appendChild(h('div', {}, 
+    h('div', { style: 'font-weight:700; color:var(--red);' }, 'Hardcore-Prüfung'),
+    h('div', { style: 'font-size:0.8rem; color:var(--text2);' }, 'Kein Zurück, kein Markieren, kein Überspringen.')
+  ));
+  screen.appendChild(hcWrap);
+
   // Start button
   screen.appendChild(h('button', {
     className: 'btn btn-primary btn-xl btn-full',
-    style: 'margin-top:24px;',
+    style: 'margin-top:8px;',
     onClick: () => {
       if (selected.size === 0) { showToast('Wähle mindestens ein Thema.', 'warning'); return; }
       const allQ = shuffle(getAllQuestionsWithIds([...selected]));
       const examQ = qCount === 0 ? allQ : allQ.slice(0, qCount);
       if (examQ.length === 0) { showToast('Keine Fragen verfügbar.', 'error'); return; }
-      router.go('exam-go', { questions: examQ, timeLimit: timeLimit * 60, indices: [...selected] });
+      router.go('exam-go', { questions: examQ, timeLimit: timeLimit * 60, indices: [...selected], hardcore: isHardcore });
     }
   }, '🚀 Klausur starten'));
 
@@ -1013,6 +1085,7 @@ function renderExamSetup(root) {
 function renderExamRun(root, params) {
   const questions = params.questions || [];
   const timeLimitSec = params.timeLimit || 0; // 0 = unlimited
+  const isHardcore = params.hardcore || false;
   if (questions.length === 0) { router.go('exam'); return; }
 
   const answers = new Array(questions.length).fill(null);
@@ -1073,6 +1146,9 @@ function renderExamRun(root, params) {
     const qc = h('div', { className: 'quiz-question', style: 'margin-bottom:16px;' });
     qc.appendChild(h('div', { className: 'quiz-question__topic' }, `${q._emoji} ${q._topic}`));
     qc.appendChild(h('div', { className: 'quiz-question__text' }, q.frage));
+    if (q.bild) {
+      qc.appendChild(h('img', { src: q.bild, style: 'max-width:100%; max-height:200px; border-radius:8px; margin-top:16px;' }));
+    }
     screen.appendChild(qc);
 
     // Options / Input
@@ -1085,6 +1161,7 @@ function renderExamRun(root, params) {
             answers[currentIdx] = oi;
             opts.querySelectorAll('.exam-option').forEach(b => b.classList.remove('selected'));
             btn.classList.add('selected');
+            if (isHardcore) renderQuestion(); // force re-render to update the 'Weiter' button state
           }
         }, opt);
         opts.appendChild(btn);
@@ -1097,27 +1174,49 @@ function renderExamRun(root, params) {
         placeholder: 'Deine Antwort...',
         value: freitextAnswers[currentIdx] || ''
       });
-      inp.addEventListener('input', (e) => { freitextAnswers[currentIdx] = e.target.value; });
+      inp.addEventListener('input', (e) => { 
+        freitextAnswers[currentIdx] = e.target.value; 
+        if (isHardcore) {
+          // just update the button visually if possible, or re-render
+          const nextBtn = document.getElementById('hc-weiter-btn');
+          if (nextBtn) {
+             const isAns = e.target.value.trim() !== '';
+             nextBtn.style.opacity = isAns ? '1' : '0.5';
+          }
+        }
+      });
       wrap.appendChild(inp);
       screen.appendChild(wrap);
     }
 
     // Actions
     const actions = h('div', { style: 'display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;' });
+    const isThisAnswered = q.typ === 'mc' ? answers[currentIdx] !== null : freitextAnswers[currentIdx].trim() !== '';
 
     // Flag button
-    const flagBtn = h('button', {
-      className: `exam-flag-btn${flags[currentIdx] ? ' flagged' : ''}`,
-      onClick: () => { flags[currentIdx] = !flags[currentIdx]; flagBtn.classList.toggle('flagged'); updateNavigator(); }
-    }, flags[currentIdx] ? '🚩 Markiert' : '🏳️ Markieren');
-    actions.appendChild(flagBtn);
+    if (!isHardcore) {
+      const flagBtn = h('button', {
+        className: `exam-flag-btn${flags[currentIdx] ? ' flagged' : ''}`,
+        onClick: () => { flags[currentIdx] = !flags[currentIdx]; flagBtn.classList.toggle('flagged'); updateNavigator(); }
+      }, flags[currentIdx] ? '🚩 Markiert' : '🏳️ Markieren');
+      actions.appendChild(flagBtn);
+    }
 
     // Navigation
-    if (currentIdx > 0) {
+    if (!isHardcore && currentIdx > 0) {
       actions.appendChild(h('button', { className: 'btn btn-secondary', onClick: () => { currentIdx--; renderQuestion(); } }, '← Zurück'));
     }
     if (currentIdx < questions.length - 1) {
-      actions.appendChild(h('button', { className: 'btn btn-primary', onClick: () => { currentIdx++; renderQuestion(); } }, 'Weiter →'));
+      const weiterBtn = h('button', { 
+        id: isHardcore ? 'hc-weiter-btn' : '',
+        className: 'btn btn-primary', 
+        style: isHardcore && !isThisAnswered ? 'opacity:0.5;' : '',
+        onClick: () => { 
+          if (isHardcore && !isThisAnswered) { showToast('Im Hardcore-Modus musst du antworten.', 'warning'); return; }
+          currentIdx++; renderQuestion(); 
+        } 
+      }, 'Weiter →');
+      actions.appendChild(weiterBtn);
     }
     actions.appendChild(h('button', {
       className: 'btn btn-danger',
@@ -1140,7 +1239,11 @@ function renderExamRun(root, params) {
       if (i === currentIdx) cls += ' current';
       else if (flags[i]) cls += ' flagged';
       else if (isAnswered) cls += ' answered';
-      const nbtn = h('button', { className: cls, onClick: () => { currentIdx = i; renderQuestion(); } }, String(i + 1));
+      const nbtn = h('button', { className: cls, onClick: () => { 
+        if (isHardcore) return; // Disallow jumping in Hardcore
+        currentIdx = i; renderQuestion(); 
+      } }, String(i + 1));
+      if (isHardcore) nbtn.style.cursor = 'default';
       nav.appendChild(nbtn);
     });
     screen.appendChild(nav);
@@ -1282,7 +1385,23 @@ function renderStats(root) {
 
   const hdr = h('div', { className: 'section-header' });
   hdr.appendChild(h('h1', { className: 'section-header__title' }, '📊 Statistik & Verwaltung'));
-  hdr.appendChild(h('p', { className: 'section-header__sub' }, 'Dein Lernfortschritt und Fragenverwaltung.'));
+  
+  const subWrap = h('div', { style: 'display:flex; justify-content:space-between; align-items:center;' });
+  subWrap.appendChild(h('p', { className: 'section-header__sub' }, 'Dein Lernfortschritt und Fragenverwaltung.'));
+  if (navigator.share) {
+    subWrap.appendChild(h('button', {
+      className: 'btn btn-ghost btn-sm',
+      onClick: () => {
+        const s = stats.getStreak();
+        navigator.share({
+          title: 'AP1 Trainer Fortschritt',
+          text: `🔥 Mein AP1-Lern-Streak: ${s.current} Tage! Bester Streak: ${s.best} Tage. Geht es noch besser?`,
+          url: window.location.href
+        }).catch(console.error);
+      }
+    }, '📤 Share'));
+  }
+  hdr.appendChild(subWrap);
   screen.appendChild(hdr);
 
   // Tabs
@@ -1584,6 +1703,11 @@ function renderManageImportExport(el) {
         try {
           let data = JSON.parse(ev.target.result);
           if (!Array.isArray(data)) data = [data];
+          
+          // JSON-Schema Validation
+          const isValid = data.every(item => item.thema && Array.isArray(item.fragen));
+          if (!isValid) throw new Error("Format ungültig (Erwartet: Array mit 'thema' und 'fragen' Array)");
+
           const topics = store.getTopics();
           let added = 0;
           for (const item of data) {
@@ -1611,6 +1735,11 @@ function renderManageImportExport(el) {
       try {
         let data = JSON.parse(ta.value);
         if (!Array.isArray(data)) data = [data];
+
+        // JSON-Schema Validation
+        const isValid = data.every(item => item.thema && Array.isArray(item.fragen));
+        if (!isValid) throw new Error("Format ungültig (Erwartet: Array mit 'thema' und 'fragen' Array)");
+
         const topics = store.getTopics();
         let added = 0;
         for (const item of data) {

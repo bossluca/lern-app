@@ -35,16 +35,15 @@ self.addEventListener('activate', (e) => {
   );
 });
 
-// Fetch – cache-first, then network fallback
+// Fetch – Stale-While-Revalidate Strategie
 self.addEventListener('fetch', (e) => {
   // Skip non-GET requests
   if (e.request.method !== 'GET') return;
 
   e.respondWith(
     caches.match(e.request).then(cached => {
-      if (cached) return cached;
-      return fetch(e.request).then(response => {
-        // Cache successful responses
+      const fetchPromise = fetch(e.request).then(response => {
+        // Cache successful responses in the background
         if (response.ok) {
           const clone = response.clone();
           caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
@@ -56,6 +55,9 @@ self.addEventListener('fetch', (e) => {
           return caches.match('./index.html');
         }
       });
+
+      // Gib das Cached-Objekt sofort zurück, falls vorhanden. Parallel läuft fetchPromise.
+      return cached || fetchPromise;
     })
   );
 });
