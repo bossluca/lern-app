@@ -1,0 +1,1199 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SQL Lernapp – Klassenarbeit 3</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Sora:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --bg: #0d0f14;
+    --surface: #151820;
+    --surface2: #1c2030;
+    --surface3: #232840;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --text: #e8eaf2;
+    --muted: #7b8099;
+    --accent: #5b8dee;
+    --accent2: #38c9a0;
+    --accent3: #f0a04a;
+    --accent4: #e05c6e;
+    --glow: rgba(91,141,238,0.15);
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Sora', sans-serif;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+    line-height: 1.6;
+  }
+
+  /* LAYOUT */
+  .app { display: flex; height: 100vh; overflow: hidden; }
+
+  /* SIDEBAR */
+  .sidebar {
+    width: 240px;
+    min-width: 240px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow-y: auto;
+  }
+
+  .sidebar-logo {
+    padding: 1.5rem 1.25rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-logo .tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .sidebar-logo h2 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .nav-section {
+    padding: 1rem 0.75rem 0.5rem;
+  }
+  .nav-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    text-transform: uppercase;
+    padding: 0 0.5rem;
+    margin-bottom: 4px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: 13px;
+    color: var(--muted);
+    font-weight: 400;
+    transition: all 0.15s;
+    margin-bottom: 2px;
+    border: 1px solid transparent;
+  }
+  .nav-item:hover { background: var(--surface2); color: var(--text); }
+  .nav-item.active {
+    background: rgba(91,141,238,0.12);
+    color: var(--accent);
+    border-color: rgba(91,141,238,0.25);
+    font-weight: 500;
+  }
+  .nav-icon {
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+
+  .progress-bar-wrap {
+    margin: 1rem 1.25rem;
+    margin-top: auto;
+    padding: 0.875rem;
+    background: var(--surface2);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border);
+  }
+  .progress-bar-wrap .pb-label {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .pb-track {
+    height: 4px;
+    background: var(--surface3);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .pb-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 99px;
+    transition: width 0.4s ease;
+  }
+  .pb-score { font-size: 12px; font-weight: 600; color: var(--text); margin-top: 5px; }
+
+  /* MAIN CONTENT */
+  .main {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem;
+    background: var(--bg);
+  }
+
+  .section { display: none; }
+  .section.visible { display: block; }
+
+  .page-header {
+    margin-bottom: 1.75rem;
+  }
+  .page-header .breadcrumb {
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 6px;
+    letter-spacing: 0.05em;
+  }
+  .page-header h1 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .page-header p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* CARDS */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card p {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* NF CARDS */
+  .nf-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 1rem; }
+  .nf-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .nf-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .nf-card.nf1::before { background: var(--accent); }
+  .nf-card.nf2::before { background: var(--accent2); }
+  .nf-card.nf3::before { background: var(--accent3); }
+  .nf-num {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .nf-card.nf1 .nf-num { color: var(--accent); }
+  .nf-card.nf2 .nf-num { color: var(--accent2); }
+  .nf-card.nf3 .nf-num { color: var(--accent3); }
+  .nf-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .nf-def { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* CODE BLOCKS */
+  .code-block {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem 1.25rem;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: #c5cae8;
+    margin: 0.75rem 0;
+    overflow-x: auto;
+    white-space: pre;
+    position: relative;
+  }
+  .kw { color: #82aaff; font-weight: 600; }
+  .fn { color: #c3e88d; }
+  .str { color: #f78c6c; }
+  .cm { color: #546e7a; font-style: italic; }
+
+  /* INFO / WARN BOXES */
+  .info-box {
+    background: rgba(91,141,238,0.08);
+    border: 1px solid rgba(91,141,238,0.2);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+    font-size: 13px;
+    color: #8fb4f5;
+    margin: 0.75rem 0;
+    line-height: 1.6;
+  }
+  .warn-box {
+    background: rgba(240,160,74,0.08);
+    border: 1px solid rgba(240,160,74,0.2);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+    font-size: 13px;
+    color: #f0b46a;
+    margin: 0.75rem 0;
+    line-height: 1.6;
+  }
+  .success-box {
+    background: rgba(56,201,160,0.08);
+    border: 1px solid rgba(56,201,160,0.2);
+    border-radius: var(--radius-sm);
+    padding: 0.75rem 1rem;
+    font-size: 13px;
+    color: #5dd6b3;
+    margin: 0.75rem 0;
+    line-height: 1.6;
+  }
+
+  /* PIPELINE */
+  .pipeline {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    margin: 1rem 0;
+  }
+  .pipe-step {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 99px;
+    border: 1px solid var(--border2);
+    color: var(--muted);
+    background: var(--surface2);
+  }
+  .pipe-step.highlight { background: rgba(91,141,238,0.15); color: var(--accent); border-color: rgba(91,141,238,0.3); }
+  .pipe-arr { color: var(--muted); font-size: 13px; }
+
+  /* AGG GRID */
+  .agg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 8px; margin: 0.75rem 0; }
+  .agg-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+  }
+  .agg-fn { font-family: var(--mono); font-size: 12px; color: var(--accent2); font-weight: 600; margin-bottom: 3px; }
+  .agg-desc { font-size: 11px; color: var(--muted); }
+
+  /* QUIZ */
+  .quiz-q {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1rem;
+  }
+  .quiz-num {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .quiz-q p { font-size: 14px; color: var(--text); font-weight: 500; margin-bottom: 1rem; line-height: 1.5; }
+  .quiz-opts { display: flex; flex-direction: column; gap: 6px; }
+  .quiz-opt {
+    font-family: var(--sans);
+    font-size: 13px;
+    text-align: left;
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border2);
+    background: var(--surface2);
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .quiz-opt:hover:not(:disabled) { border-color: rgba(91,141,238,0.4); color: var(--text); background: rgba(91,141,238,0.06); }
+  .quiz-opt.correct { background: rgba(56,201,160,0.1); border-color: rgba(56,201,160,0.4); color: #5dd6b3; }
+  .quiz-opt.wrong { background: rgba(224,92,110,0.1); border-color: rgba(224,92,110,0.4); color: #e87d8a; }
+  .quiz-fb { font-size: 12px; margin-top: 10px; line-height: 1.6; padding: 8px 12px; border-radius: var(--radius-sm); }
+  .quiz-fb.ok { background: rgba(56,201,160,0.08); color: #5dd6b3; }
+  .quiz-fb.err { background: rgba(224,92,110,0.08); color: #e87d8a; }
+
+  /* AUFGABEN */
+  .task-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .task-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .task-header:hover { background: var(--surface2); }
+  .task-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .task-badge {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--accent);
+    background: rgba(91,141,238,0.12);
+    padding: 3px 9px;
+    border-radius: 99px;
+    border: 1px solid rgba(91,141,238,0.2);
+  }
+  .task-text { font-size: 13px; color: var(--muted); }
+  .task-chevron { font-size: 13px; color: var(--muted); transition: transform 0.2s; }
+  .task-card.open .task-chevron { transform: rotate(90deg); }
+  .task-body { display: none; padding: 0 1.25rem 1.25rem; border-top: 1px solid var(--border); }
+  .task-card.open .task-body { display: block; }
+  .task-body .code-block { margin-top: 0.75rem; }
+
+  /* TABLE */
+  .table-wrap { overflow-x: auto; margin: 0.75rem 0; }
+  table { border-collapse: collapse; font-size: 12px; width: 100%; }
+  th { background: var(--surface3); color: var(--muted); font-weight: 600; padding: 7px 12px; text-align: left; border: 1px solid var(--border); font-size: 11px; letter-spacing: 0.05em; text-transform: uppercase; }
+  td { padding: 6px 12px; border: 1px solid var(--border); color: var(--text); }
+  tr:nth-child(even) td { background: var(--surface2); }
+  .pk { color: var(--accent); font-weight: 600; }
+  .fk { color: var(--accent2); font-weight: 600; }
+
+  /* ANOMALIE GRID */
+  .anomaly-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 0.75rem 0; }
+  .anomaly-card {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 1rem;
+  }
+  .anomaly-card .a-icon { font-size: 20px; margin-bottom: 8px; }
+  .anomaly-card .a-title { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+  .anomaly-card .a-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 99px; }
+
+  /* BADGES */
+  .badge { font-size: 10px; font-weight: 600; padding: 2px 8px; border-radius: 99px; letter-spacing: 0.05em; }
+  .badge-blue { background: rgba(91,141,238,0.15); color: var(--accent); }
+  .badge-green { background: rgba(56,201,160,0.15); color: var(--accent2); }
+  .badge-amber { background: rgba(240,160,74,0.15); color: var(--accent3); }
+
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  /* BOTTOM NAV (mobile only) */
+  .bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border2);
+    z-index: 100;
+    padding: 0 4px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  .bottom-nav-inner {
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+  }
+  .bn-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 2px 6px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-family: var(--sans);
+    font-size: 9px;
+    font-weight: 500;
+    gap: 3px;
+    transition: color 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .bn-item.active { color: var(--accent); }
+  .bn-icon { font-size: 18px; line-height: 1; }
+
+  @media (max-width: 700px) {
+    .app { flex-direction: column; height: auto; min-height: 100vh; overflow: visible; }
+    .sidebar { display: none; }
+    .bottom-nav { display: block; }
+    .main {
+      padding: 1rem 0.875rem;
+      padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
+      overflow-y: visible;
+    }
+    .nf-grid, .grid-2, .anomaly-grid { grid-template-columns: 1fr; }
+    .pipeline { gap: 3px; }
+    .pipe-step { font-size: 10px; padding: 4px 8px; }
+    .agg-grid { grid-template-columns: repeat(2, 1fr); }
+    .page-header h1 { font-size: 18px; }
+    .code-block { font-size: 11.5px; padding: 0.75rem; }
+    .card { padding: 1rem; }
+    .task-text { font-size: 12px; }
+    .quiz-q p { font-size: 13px; }
+    .quiz-opt { font-size: 13px; padding: 12px 14px; }
+    .table-wrap { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="app">
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="tag">BBS Haarentor · LF8</div>
+      <h2>SQL Lernapp<br>Klassenarbeit 3</h2>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Theorie</div>
+      <div class="nav-item active" onclick="show('home')">
+        <span class="nav-icon">⌂</span>
+        <span>Übersicht</span>
+      </div>
+      <div class="nav-item" onclick="show('nf')">
+        <span class="nav-icon">◈</span>
+        <span>Normalformen</span>
+      </div>
+      <div class="nav-item" onclick="show('groupby')">
+        <span class="nav-icon">▤</span>
+        <span>GROUP BY & HAVING</span>
+      </div>
+      <div class="nav-item" onclick="show('subquery')">
+        <span class="nav-icon">⊂</span>
+        <span>Subqueries</span>
+      </div>
+      <div class="nav-item" onclick="show('relmodel')">
+        <span class="nav-icon">⬡</span>
+        <span>Relationenmodell</span>
+      </div>
+    </div>
+
+    <div class="nav-section">
+      <div class="nav-section-label">Übungen</div>
+      <div class="nav-item" onclick="show('klausur')">
+        <span class="nav-icon">✎</span>
+        <span>Klausuraufgaben</span>
+      </div>
+      <div class="nav-item" onclick="show('quiz')">
+        <span class="nav-icon">◉</span>
+        <span>Quiz</span>
+      </div>
+      <div class="nav-item" onclick="show('gesamteklausur')">
+        <span class="nav-icon">📜</span>
+        <span>Gesamte Klausur</span>
+      </div>
+    </div>
+
+    <div class="progress-bar-wrap">
+      <div class="pb-label">Quiz-Fortschritt</div>
+      <div class="pb-track"><div class="pb-fill" id="pb" style="width:0%"></div></div>
+      <div class="pb-score" id="pb-score">0 / 6 Fragen</div>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- HOME -->
+    <div id="sec-home" class="section visible">
+      <div class="page-header">
+        <div class="breadcrumb">LERNFELD 8 · FACHINFORMATIKER SI</div>
+        <h1>Klassenarbeit 3 – Übersicht</h1>
+        <p>Alle Themen auf einen Blick. Wähle ein Kapitel aus der Sidebar.</p>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-bottom:1.5rem;">
+        <div class="card" style="cursor:pointer;border-left:3px solid var(--accent);" onclick="show('nf')">
+          <h3>◈ Normalformen</h3>
+          <p>1NF, 2NF, 3NF – Definitionen, Anomalien, Normalisierungsschritte</p>
+          <div style="margin-top:10px;"><span class="badge badge-blue">Aufgabe 1 & 2</span></div>
+        </div>
+        <div class="card" style="cursor:pointer;border-left:3px solid var(--accent2);" onclick="show('groupby')">
+          <h3>▤ GROUP BY & HAVING</h3>
+          <p>Aggregatfunktionen, Gruppierung, HAVING-Klausel, Auswertungsreihenfolge</p>
+          <div style="margin-top:10px;"><span class="badge badge-green">Aufgabe 4 d–f</span></div>
+        </div>
+        <div class="card" style="cursor:pointer;border-left:3px solid var(--accent3);" onclick="show('subquery')">
+          <h3>⊂ Subqueries</h3>
+          <p>Geschachtelte SELECTs, Vergleichsoperatoren, IN-Operator</p>
+          <div style="margin-top:10px;"><span class="badge badge-amber">Aufgabe 4 g–i</span></div>
+        </div>
+        <div class="card" style="cursor:pointer;border-left:3px solid #9b6ef3;" onclick="show('relmodel')">
+          <h3>⬡ Relationenmodell</h3>
+          <p>Nicht-grafische Notation, PK/FK-Ergänzung, m:n-Auflösung</p>
+          <div style="margin-top:10px;"><span class="badge" style="background:rgba(155,110,243,0.15);color:#b08ef5;">Aufgabe 3</span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📊 Selbsteinschätzung der Klasse (Bericht)</h3>
+        <p style="margin-bottom:0.75rem;">Basierend auf dem Moodle-Befragungsbericht – das sind die Schwachstellen:</p>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="font-size:12px;color:var(--muted);width:220px;flex-shrink:0;">Drei Normalformen definieren</div>
+            <div style="flex:1;background:var(--surface3);border-radius:99px;height:6px;overflow:hidden;"><div style="width:100%;height:100%;background:var(--accent2);border-radius:99px;"></div></div>
+            <div style="font-size:11px;color:var(--accent2);font-weight:600;width:36px;text-align:right;">100%</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="font-size:12px;color:var(--muted);width:220px;flex-shrink:0;">Ziele der Normalisierung</div>
+            <div style="flex:1;background:var(--surface3);border-radius:99px;height:6px;overflow:hidden;"><div style="width:79%;height:100%;background:var(--accent2);border-radius:99px;"></div></div>
+            <div style="font-size:11px;color:var(--accent2);font-weight:600;width:36px;text-align:right;">79%</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="font-size:12px;color:var(--muted);width:220px;flex-shrink:0;">Daten in 3NF überführen</div>
+            <div style="flex:1;background:var(--surface3);border-radius:99px;height:6px;overflow:hidden;"><div style="width:79%;height:100%;background:var(--accent2);border-radius:99px;"></div></div>
+            <div style="font-size:11px;color:var(--accent2);font-weight:600;width:36px;text-align:right;">79%</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="font-size:12px;color:var(--muted);width:220px;flex-shrink:0;">GROUP BY vs. DISTINCT</div>
+            <div style="flex:1;background:var(--surface3);border-radius:99px;height:6px;overflow:hidden;"><div style="width:29%;height:100%;background:var(--accent3);border-radius:99px;"></div></div>
+            <div style="font-size:11px;color:var(--accent3);font-weight:600;width:36px;text-align:right;">29%</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="font-size:12px;color:var(--muted);width:220px;flex-shrink:0;">GROUP BY anwenden</div>
+            <div style="flex:1;background:var(--surface3);border-radius:99px;height:6px;overflow:hidden;"><div style="width:7%;height:100%;background:var(--accent4);border-radius:99px;"></div></div>
+            <div style="font-size:11px;color:var(--accent4);font-weight:600;width:36px;text-align:right;">7%</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <div style="font-size:12px;color:var(--muted);width:220px;flex-shrink:0;">HAVING-Klausel</div>
+            <div style="flex:1;background:var(--surface3);border-radius:99px;height:6px;overflow:hidden;"><div style="width:7%;height:100%;background:var(--accent4);border-radius:99px;"></div></div>
+            <div style="font-size:11px;color:var(--accent4);font-weight:600;width:36px;text-align:right;">7%</div>
+          </div>
+        </div>
+        <div class="warn-box" style="margin-top:1rem;">GROUP BY und HAVING sind die größten Lücken – lege hier deinen Fokus!</div>
+      </div>
+    </div>
+
+    <!-- NORMALFORMEN -->
+    <div id="sec-nf" class="section">
+      <div class="page-header">
+        <div class="breadcrumb">THEORIE</div>
+        <h1>Normalformen</h1>
+        <p>Die drei Normalformen im Überblick</p>
+      </div>
+
+      <div class="nf-grid">
+        <div class="nf-card nf1">
+          <div class="nf-num">1. Normalform</div>
+          <div class="nf-title">Atomare Werte</div>
+          <div class="nf-def">Jedes Attribut enthält nur einen einzigen, unteilbaren Wert. Keine Wiederholungsgruppen, keine Listen in einem Feld.</div>
+        </div>
+        <div class="nf-card nf2">
+          <div class="nf-num">2. Normalform</div>
+          <div class="nf-title">Volle Abhängigkeit</div>
+          <div class="nf-def">Setzt 1NF voraus. Jedes Nicht-Schlüssel-Attribut hängt vom <em>gesamten</em> Primärschlüssel ab – keine partiellen Abhängigkeiten.</div>
+        </div>
+        <div class="nf-card nf3">
+          <div class="nf-num">3. Normalform</div>
+          <div class="nf-title">Keine transitiven Abh.</div>
+          <div class="nf-def">Setzt 2NF voraus. Kein Nicht-Schlüssel-Attribut darf von einem anderen Nicht-Schlüssel-Attribut abhängen.</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Warum normalisieren? – Die 3 Mutationsanomalien</h3>
+        <div class="anomaly-grid">
+          <div class="anomaly-card">
+            <div class="a-icon">➕</div>
+            <div class="a-title">Einfügeanomalie</div>
+            <div class="a-desc">Neue Daten können nicht eingefügt werden, ohne unvollständige oder redundante Einträge zu erzeugen.</div>
+          </div>
+          <div class="anomaly-card">
+            <div class="a-icon">✖</div>
+            <div class="a-title">Löschanomalie</div>
+            <div class="a-desc">Beim Löschen eines Datensatzes gehen unbeabsichtigt andere wichtige Daten verloren.</div>
+          </div>
+          <div class="anomaly-card">
+            <div class="a-icon">✎</div>
+            <div class="a-title">Änderungsanomalie</div>
+            <div class="a-desc">Redundant gespeicherte Daten müssen an mehreren Stellen geändert werden – Inkonsistenz ist die Folge.</div>
+          </div>
+        </div>
+        <div class="info-box">Redundanz = mehrfach gespeicherte gleiche Information → führt zwangsläufig zu Dateninkonsistenz</div>
+      </div>
+
+      <div class="card">
+        <h3>Frage 1 aus der Klausur – Musterlösung</h3>
+        <p style="margin-bottom:0.5rem;"><em>„Was ist das Hauptziel der Normalisierung?"</em></p>
+        <div class="success-box">Antwort: <strong>b) Vermeidung von Redundanzen</strong> – durch Aufteilen der Daten in mehrere Tabellen werden Mehrfachspeicherungen und damit Anomalien vermieden.</div>
+      </div>
+
+      <div class="card">
+        <h3>Normalisierungsbeispiel – Klausur Aufgabe 2</h3>
+        <p style="margin-bottom:0.75rem;">Ausgangstabelle mit zusammengesetztem Primärschlüssel (KundeID + BestellNr):</p>
+        <div class="table-wrap">
+          <table>
+            <tr><th>KundeID</th><th>BestellNr</th><th>ArtikelID</th><th>Name</th><th>Artikelname</th><th>Preis</th></tr>
+            <tr><td class="pk">Kd1</td><td class="pk">B100</td><td class="fk">A123</td><td>Müller, Arne</td><td>Laptop</td><td>800</td></tr>
+            <tr><td class="pk">Kd1</td><td class="pk">B102</td><td class="fk">A550</td><td>Müller, Arne</td><td>Maus</td><td>25</td></tr>
+            <tr><td class="pk">Kd2</td><td class="pk">B103</td><td class="fk">A211</td><td>List, Franz</td><td>Monitor</td><td>150</td></tr>
+          </table>
+        </div>
+        <div class="warn-box">2NF-Verstoß: „Name" hängt nur von KundeID ab, nicht vom gesamten zusammengesetzten Schlüssel → partielle Abhängigkeit!</div>
+        <p style="font-size:13px;color:var(--muted);margin-top:0.5rem;">Lösung: Kunden-Tabelle auslagern → <strong>Kunden(KundeID, Name)</strong> und <strong>Bestellung(BestellNr, KundeID, ArtikelID, …)</strong></p>
+      </div>
+    </div>
+
+    <!-- GROUP BY -->
+    <div id="sec-groupby" class="section">
+      <div class="page-header">
+        <div class="breadcrumb">THEORIE</div>
+        <h1>GROUP BY &amp; HAVING</h1>
+        <p>Aggregatfunktionen und Gruppenauswertung – Lektion 2 &amp; 4 von sql-tutorial.de</p>
+      </div>
+
+      <div class="card">
+        <h3>Auswertungsreihenfolge einer SELECT-Anweisung</h3>
+        <div class="pipeline">
+          <div class="pipe-step">FROM</div><div class="pipe-arr">→</div>
+          <div class="pipe-step">WHERE</div><div class="pipe-arr">→</div>
+          <div class="pipe-step highlight">GROUP BY</div><div class="pipe-arr">→</div>
+          <div class="pipe-step highlight">HAVING</div><div class="pipe-arr">→</div>
+          <div class="pipe-step">SELECT</div><div class="pipe-arr">→</div>
+          <div class="pipe-step">ORDER BY</div><div class="pipe-arr">→</div>
+          <div class="pipe-step">LIMIT</div>
+        </div>
+        <div class="info-box"><strong>WHERE</strong> filtert einzelne Zeilen <em>vor</em> der Gruppierung – keine Aggregatfunktionen erlaubt!<br><strong>HAVING</strong> filtert Gruppen <em>nach</em> der Gruppierung – Aggregatfunktionen sind hier Pflicht.</div>
+      </div>
+
+      <div class="card">
+        <h3>Aggregatfunktionen (Lektion 2)</h3>
+        <div class="agg-grid">
+          <div class="agg-card"><div class="agg-fn">COUNT(*)</div><div class="agg-desc">Anzahl aller Zeilen</div></div>
+          <div class="agg-card"><div class="agg-fn">COUNT(Spalte)</div><div class="agg-desc">Anzahl nicht-NULL-Werte</div></div>
+          <div class="agg-card"><div class="agg-fn">SUM(Spalte)</div><div class="agg-desc">Summe der Werte</div></div>
+          <div class="agg-card"><div class="agg-fn">AVG(Spalte)</div><div class="agg-desc">Durchschnittswert</div></div>
+          <div class="agg-card"><div class="agg-fn">MAX(Spalte)</div><div class="agg-desc">Größter Wert</div></div>
+          <div class="agg-card"><div class="agg-fn">MIN(Spalte)</div><div class="agg-desc">Kleinster Wert</div></div>
+        </div>
+        <div class="warn-box">Nach GROUP BY dürfen in SELECT nur Gruppierungsattribute und Aggregatfunktionen stehen. Einzelwert-Attribute erzeugen einen Fehler!</div>
+      </div>
+
+      <div class="card">
+        <h3>Vollständige Syntax (Lektion 4)</h3>
+        <div class="code-block"><span class="kw">SELECT</span> Region, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> Anzahl, <span class="fn">SUM</span>(Punkte) <span class="kw">AS</span> Gesamt
+<span class="kw">FROM</span> Mannschaft
+<span class="kw">WHERE</span> Spiele = 10          <span class="cm">-- filtert Zeilen (vor Gruppierung)</span>
+<span class="kw">GROUP BY</span> Region             <span class="cm">-- gruppiert nach Region</span>
+<span class="kw">HAVING</span> <span class="fn">SUM</span>(Punkte) > 30   <span class="cm">-- filtert Gruppen (nach Gruppierung)</span>
+<span class="kw">ORDER BY</span> Gesamt <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> 5;</div>
+      </div>
+    </div>
+
+    <!-- SUBQUERIES -->
+    <div id="sec-subquery" class="section">
+      <div class="page-header">
+        <div class="breadcrumb">THEORIE</div>
+        <h1>Geschachtelte SELECT-Anweisungen</h1>
+        <p>Subqueries mit = und IN – Lektion 5 von sql-tutorial.de</p>
+      </div>
+
+      <div class="card">
+        <h3>Grundprinzip</h3>
+        <p>Eine Unterabfrage steht in der WHERE-Klausel der Hauptabfrage und liefert einen Vergleichswert. So lassen sich zwei Abfragen in einer einzigen SQL-Anweisung kombinieren.</p>
+        <div class="code-block"><span class="cm">-- Muster: Unterabfrage mit Vergleichsoperator =</span>
+<span class="kw">SELECT</span> spalte
+<span class="kw">FROM</span> tabelle
+<span class="kw">WHERE</span> spalte <span class="kw">OPERATOR</span> (
+    <span class="kw">SELECT</span> spalte       <span class="cm">-- NUR eine Spalte erlaubt!</span>
+    <span class="kw">FROM</span> tabelle
+    <span class="kw">WHERE</span> bedingung
+);</div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>Mit = Operator</h3>
+          <p style="margin-bottom:0.5rem;">Die Unterabfrage muss <strong>genau einen Wert</strong> liefern.</p>
+          <div class="code-block"><span class="kw">SELECT</span> Name
+<span class="kw">FROM</span> Mannschaft
+<span class="kw">WHERE</span> Punkte > (
+  <span class="kw">SELECT</span> Punkte
+  <span class="kw">FROM</span> Mannschaft
+  <span class="kw">WHERE</span> Name = <span class="str">'KBV Burhafe'</span>
+);</div>
+        </div>
+        <div class="card">
+          <h3>Mit IN Operator</h3>
+          <p style="margin-bottom:0.5rem;">Die Unterabfrage darf <strong>mehrere Werte</strong> liefern.</p>
+          <div class="code-block"><span class="kw">SELECT</span> Name
+<span class="kw">FROM</span> Mannschaft
+<span class="kw">WHERE</span> Region <span class="kw">IN</span> (
+  <span class="kw">SELECT</span> Region
+  <span class="kw">FROM</span> Mannschaft
+  <span class="kw">WHERE</span> Punkte > 15
+);</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Regeln auf einen Blick</h3>
+        <div class="info-box">
+          1. In der SELECT-Klausel der Unterabfrage darf immer nur <strong>eine Spalte</strong> angegeben werden.<br>
+          2. Wird <code>=</code> verwendet: Unterabfrage muss genau <strong>einen Wert</strong> zurückgeben.<br>
+          3. Werden mehrere Werte erwartet: <code>IN</code> verwenden statt <code>=</code>.
+        </div>
+      </div>
+    </div>
+
+    <!-- RELATIONENMODELL -->
+    <div id="sec-relmodel" class="section">
+      <div class="page-header">
+        <div class="breadcrumb">THEORIE</div>
+        <h1>Relationenmodell</h1>
+        <p>Nicht-grafische Notation – Aufgabe 3 der Klausur</p>
+      </div>
+
+      <div class="card">
+        <h3>Notation</h3>
+        <p style="margin-bottom:0.75rem;">Format: <code style="font-family:var(--mono);background:var(--surface2);padding:2px 6px;border-radius:4px;">Tabelle(<u>PK</u>, Attribut, <u style="text-decoration-style:dashed;">FK</u> → Tabelle)</code></p>
+        <div class="info-box">
+          <strong>Primärschlüssel (PK)</strong> → unterstrichen<br>
+          <strong>Fremdschlüssel (FK)</strong> → gestrichelt unterstrichen + Pfeil auf referenzierte Tabelle<br>
+          Bei m:n → eigene Zwischentabelle mit zusammengesetztem PK aus beiden FKs
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Lösung Aufgabe 3 – Büromöbel KG</h3>
+        <p style="margin-bottom:0.5rem;font-size:12px;color:var(--muted);">Artikel haben mehrere Bauteile; ein Bauteil kann in mehreren Artikeln vorkommen (m:n) → Zwischentabelle nötig</p>
+        <div class="code-block"><span class="cm">-- Artikel(ArtikelNr, Artikelbeschreibung, VK_Artikelpreis)</span>
+<span class="cm">-- Bauteil(BauteilID, Bezeichnung, Material)</span>
+<span class="cm">-- Mengeneinheit(MengeneinheitID, Mengeneinheit)</span>
+<span class="cm">-- Artikel_Bauteil(ArtikelNr, BauteilID, MengeneinheitID, Bauteilmenge)</span>
+<span class="cm">--    PK: (ArtikelNr, BauteilID) zusammengesetzt</span>
+<span class="cm">--    FK: ArtikelNr → Artikel</span>
+<span class="cm">--    FK: BauteilID → Bauteil</span>
+<span class="cm">--    FK: MengeneinheitID → Mengeneinheit</span></div>
+        <div class="warn-box">Hinweis aus der Aufgabe: Zwischenschritte der Normalisierung (1NF, 2NF) sind nicht notwendig – direkt zur 3NF überführen!</div>
+      </div>
+
+      <div class="card">
+        <h3>Beispiel PK &amp; FK in einer Tabelle</h3>
+        <div class="table-wrap">
+          <table>
+            <tr><th>KundeID (PK)</th><th>BestellNr (PK)</th><th>ArtikelID (FK)</th><th>Name</th></tr>
+            <tr><td class="pk">Kd1</td><td class="pk">B100</td><td class="fk">A123</td><td>Müller, Arne</td></tr>
+            <tr><td class="pk">Kd2</td><td class="pk">B103</td><td class="fk">A211</td><td>List, Franz</td></tr>
+          </table>
+        </div>
+        <div style="display:flex;gap:16px;margin-top:8px;">
+          <div style="font-size:11px;color:var(--accent);">● Primärschlüssel</div>
+          <div style="font-size:11px;color:var(--accent2);">● Fremdschlüssel</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- KLAUSURAUFGABEN -->
+    <div id="sec-klausur" class="section">
+      <div class="page-header">
+        <div class="breadcrumb">ÜBUNGEN</div>
+        <h1>Klausuraufgaben – SQL</h1>
+        <p>Aufgabe 4: Boßel-Sommerturnier. Tabelle: Mannschaft(TeamID, Name, Region, Spiele, Punkte, Shoett_Differenz)</p>
+      </div>
+
+      <div id="tasks">
+        <!-- Tasks injected by JS -->
+      </div>
+    </div>
+
+    <!-- GESAMTE KLAUSUR -->
+    <div id="sec-gesamteklausur" class="section">
+      <div class="page-header">
+        <div class="breadcrumb">ÜBUNGEN</div>
+        <h1>Klassenarbeit 3 – Komplett</h1>
+        <p>Die gesamte Klausur (Aufgaben 1 bis 4) inkl. Musterlösungen am Stück.</p>
+      </div>
+
+      <!-- Aufgabe 1 -->
+      <div class="card">
+        <h3>Aufgabe 1: Multiple Choice (5 P.)</h3>
+        <p style="margin-bottom:0.75rem;">Notieren Sie den Buchstaben der korrekten Antwort.</p>
+        
+        <div style="font-size:13px; line-height:1.6; color:var(--text);">
+          <p><strong>1) Was ist das Hauptziel der Normalisierung?</strong><br>a) Verbesserung der Leistung b) Vermeidung von Redundanzen c) Erhöhung der Datenmenge d) Reduzierung der Speichernutzung</p>
+          <p><strong>2) Welche Aussage ist eine korrekte Definition für Redundanz?</strong><br>a) Fehlen von Daten b) Wiederholung von Informationen c) Aktualisierung von Informationen d) Löschung von Daten</p>
+          <p><strong>3) Was ist eine Relation?</strong><br>a) Eine Funktion b) Tabelle mit Zeilen und Spalten c) Feld in einer Tabelle d) Datenbankabfrage</p>
+          <p><strong>4) Welche Normalform verhindert partielle Abhängigkeiten?</strong><br>a) Erste Normalform (1NF) b) Zweite Normalform (2NF) c) Dritte Normalform (3NF) d) Vierte Normalform (4NF)</p>
+          <p><strong>5) Was ist ein zusammengesetzter Schlüssel?</strong><br>a) Ein Schlüssel, der aus mehreren Attributen besteht b) Ein Schlüssel, der aus einem Attribut besteht c) Ein Schlüssel, der aus zwei Tabellen besteht d) Ein Schlüssel, der aus einer Tabelle besteht</p>
+        </div>
+
+        <div class="task-card" style="margin-top:1rem;" onclick="this.classList.toggle('open')">
+          <div class="task-header">
+            <div class="task-label"><span class="task-badge">Lösung anzeigen</span></div>
+            <span class="task-chevron">▶</span>
+          </div>
+          <div class="task-body">
+            <div class="success-box" style="margin-top:0.75rem; margin-bottom:0;">
+              1) <strong>b</strong> (Vermeidung von Redundanzen)<br>
+              2) <strong>b</strong> (Wiederholung von Informationen)<br>
+              3) <strong>b</strong> (Tabelle mit Zeilen und Spalten)<br>
+              4) <strong>b</strong> (Zweite Normalform (2NF))<br>
+              5) <strong>a</strong> (Ein Schlüssel, der aus mehreren Attributen besteht)
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aufgabe 2 -->
+      <div class="card">
+        <h3>Aufgabe 2: Normalformen (6 P.)</h3>
+        <p style="margin-bottom:0.75rem;"><strong>a) Nennen</strong> Sie die Definitionen der drei Normalformen (NF).<br>
+        <strong>b) Prüfen</strong> Sie für jede NF, ob die Tabelle (KundeID, Bestellnr, Artikel_ID, Name, Artikelname, Preis, Anmerkung) gegen sie verstößt. <strong>Begründen</strong> Sie.</p>
+        
+        <div class="task-card" style="margin-top:1rem;" onclick="this.classList.toggle('open')">
+          <div class="task-header">
+            <div class="task-label"><span class="task-badge">Lösung anzeigen</span></div>
+            <span class="task-chevron">▶</span>
+          </div>
+          <div class="task-body">
+            <div style="font-size:13px; line-height:1.6; margin-top:0.75rem;">
+              <strong>a) Definitionen:</strong><br>
+              <span class="kw">1NF:</span> Atomare Werte (jedes Attribut enthält nur einen einzigen, unteilbaren Wert).<br>
+              <span class="kw">2NF:</span> 1NF erfüllt + jedes Nicht-Schlüssel-Attribut ist voll funktional abhängig vom gesamten Primärschlüssel (keine partiellen Abhängigkeiten).<br>
+              <span class="kw">3NF:</span> 2NF erfüllt + kein Nicht-Schlüssel-Attribut hängt von einem anderen Nicht-Schlüssel-Attribut ab (keine transitiven Abhängigkeiten).
+              <br><br>
+              <strong>b) Überprüfung:</strong><br>
+              - <strong>1NF:</strong> Ist verletzt! Das Feld "Anmerkung" enthält teilweise mehrere Informationen ("Auch Windows installieren", "Ubuntu aufspielen").<br>
+              - <strong>2NF:</strong> Ist verletzt! "Name" hängt nur von "KundeID" ab (Teil des Schlüssels), nicht aber von "Bestellnr". Dies ist eine partielle Abhängigkeit.<br>
+              - <strong>3NF:</strong> Ist verletzt! "Artikelname" und "Preis" hängen vom Nicht-Schlüssel-Attribut "Artikel_ID" ab (transitive Abhängigkeit).
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aufgabe 3 -->
+      <div class="card">
+        <h3>Aufgabe 3: Relationenmodell (8 P.)</h3>
+        <p style="margin-bottom:0.75rem;">Erstellen Sie ein nicht-graphisches Relationenmodell (3NF) für die Krapendorf Büromöbelwerke KG. Artikel haben mehrere Bauteile, ein Bauteil kann in mehreren Artikeln vorkommen. Zwischenschritte sind nicht notwendig.</p>
+        
+        <div class="task-card" style="margin-top:1rem;" onclick="this.classList.toggle('open')">
+          <div class="task-header">
+            <div class="task-label"><span class="task-badge">Lösung anzeigen</span></div>
+            <span class="task-chevron">▶</span>
+          </div>
+          <div class="task-body">
+            <div class="code-block" style="margin-top:0.75rem;">Artikel(<u>ArtikelNr</u>, Artikelbeschreibung, VK_Artikelpreis)
+Bauteil(<u>Bauteil_ID</u>, Bauteil, Material)
+Mengeneinheit(<u>Mengeneinheit_ID</u>, Mengeneinheit)
+Artikel_Bauteil(<u><span style="border-bottom: 1px dashed;">ArtikelNr</span></u>, <u><span style="border-bottom: 1px dashed;">Bauteil_ID</span></u>, <span style="border-bottom: 1px dashed;">Mengeneinheit_ID</span>, Bauteilmenge)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Aufgabe 4 -->
+      <div class="card">
+        <h3>Aufgabe 4: Boßel-Sommerturnier (18 P.)</h3>
+        <p style="margin-bottom:0.75rem;">Tabelle: <code>Mannschaft(TeamID, Name, Region, Spiele, Punkte, Shoett_Differenz)</code><br>Erstellen Sie SQL-Anweisungen für folgende Abfragen:</p>
+        <div id="gesamtklausur-tasks">
+          <!-- Wird per JS befüllt -->
+        </div>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div id="sec-quiz" class="section">
+      <div class="page-header">
+        <div class="breadcrumb">ÜBUNGEN</div>
+        <h1>Quiz – Wissencheck</h1>
+        <p>Teste dein Wissen zu den Klausurthemen</p>
+      </div>
+      <div id="quiz-container"></div>
+    </div>
+
+  </main>
+</div>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <button class="bn-item active" onclick="show('home')" id="bn-home">
+      <span class="bn-icon">⌂</span><span>Start</span>
+    </button>
+    <button class="bn-item" onclick="show('nf')" id="bn-nf">
+      <span class="bn-icon">◈</span><span>1/2/3 NF</span>
+    </button>
+    <button class="bn-item" onclick="show('groupby')" id="bn-groupby">
+      <span class="bn-icon">▤</span><span>GROUP BY</span>
+    </button>
+    <button class="bn-item" onclick="show('subquery')" id="bn-subquery">
+      <span class="bn-icon">⊂</span><span>Subquery</span>
+    </button>
+    <button class="bn-item" onclick="show('relmodel')" id="bn-relmodel">
+      <span class="bn-icon">⬡</span><span>Relationen</span>
+    </button>
+    <button class="bn-item" onclick="show('klausur')" id="bn-klausur">
+      <span class="bn-icon">✎</span><span>Aufgaben</span>
+    </button>
+    <button class="bn-item" onclick="show('quiz')" id="bn-quiz">
+      <span class="bn-icon">◉</span><span>Quiz</span>
+    </button>
+    <button class="bn-item" onclick="show('gesamteklausur')" id="bn-gesamteklausur">
+      <span class="bn-icon">📜</span><span>Klausur</span>
+    </button>
+  </div>
+</nav>
+
+<script>
+// Navigation
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('visible'));
+  document.getElementById('sec-' + id).classList.add('visible');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const map = { home:0, nf:1, groupby:2, subquery:3, relmodel:4, klausur:5, quiz:6, gesamteklausur:7 };
+  const navItems = document.querySelectorAll('.nav-item');
+  if (map[id] !== undefined) navItems[map[id]].classList.add('active');
+  // update bottom nav
+  document.querySelectorAll('.bn-item').forEach(b => b.classList.remove('active'));
+  const bn = document.getElementById('bn-' + id);
+  if (bn) bn.classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// TASKS
+const tasks = [
+  {
+    id: 'a', label: 'Aufgabe a',
+    text: 'Für jede Region: Name der Region und Anzahl der Mannschaften ausgeben',
+    solution: `SELECT Region, COUNT(*) AS Anzahl\nFROM Mannschaft\nGROUP BY Region;`
+  },
+  {
+    id: 'b', label: 'Aufgabe b',
+    text: 'Alle Regionen: Name und Anzahl der Mannschaften mit mehr als 25 Punkten',
+    solution: `SELECT Region, COUNT(*) AS Anzahl\nFROM Mannschaft\nWHERE Punkte > 25\nGROUP BY Region;`
+  },
+  {
+    id: 'c', label: 'Aufgabe c',
+    text: 'Anzahl der Mannschaften pro Region ermitteln',
+    solution: `SELECT Region, COUNT(*) AS Anzahl_Mannschaften\nFROM Mannschaft\nGROUP BY Region;`
+  },
+  {
+    id: 'd', label: 'Aufgabe d',
+    text: 'Gesamtpunktzahl jeder Region, absteigend nach Punktzahl sortiert',
+    solution: `SELECT Region, SUM(Punkte) AS Gesamtpunkte\nFROM Mannschaft\nGROUP BY Region\nORDER BY Gesamtpunkte DESC;`
+  },
+  {
+    id: 'e', label: 'Aufgabe e',
+    text: 'Regionen ausgeben, deren Teams zusammen mehr als 30 Punkte erreicht haben',
+    solution: `SELECT Region, SUM(Punkte) AS Gesamtpunkte\nFROM Mannschaft\nGROUP BY Region\nHAVING SUM(Punkte) > 30;`
+  },
+  {
+    id: 'f', label: 'Aufgabe f',
+    text: 'Regionen mit einer Gesamtpunktzahl von mindestens 100',
+    solution: `SELECT Region, SUM(Punkte) AS Gesamtpunkte\nFROM Mannschaft\nGROUP BY Region\nHAVING SUM(Punkte) >= 100;`
+  },
+  {
+    id: 'g', label: 'Aufgabe g',
+    text: 'Mannschaften mit größerer Shött-Differenz als das Team mit der größten Shött-Differenz in Region Esens',
+    solution: `SELECT Name FROM Mannschaft\nWHERE Shoett_Differenz > (\n  SELECT MAX(Shoett_Differenz)\n  FROM Mannschaft\n  WHERE Region = 'Esens'\n);`,
+    hint: 'Subquery mit MAX() nötig, um den größten Wert in Esens zu ermitteln.'
+  },
+  {
+    id: 'h', label: 'Aufgabe h',
+    text: 'Regionen mit mehr Punkten als die Region Wittmund',
+    solution: `SELECT Region, SUM(Punkte) AS Gesamtpunkte\nFROM Mannschaft\nGROUP BY Region\nHAVING SUM(Punkte) > (\n  SELECT SUM(Punkte)\n  FROM Mannschaft\n  WHERE Region = 'Wittmund'\n);`,
+    hint: 'GROUP BY + HAVING mit Subquery kombinieren.'
+  },
+  {
+    id: 'i', label: 'Aufgabe i',
+    text: 'Mannschaften Aurichs mit überdurchschnittlicher Shött-Differenz',
+    solution: `SELECT Name FROM Mannschaft\nWHERE Region = 'Aurich'\n  AND Shoett_Differenz > (\n    SELECT AVG(Shoett_Differenz)\n    FROM Mannschaft\n    WHERE Region = 'Aurich'\n  );`,
+    hint: 'AVG() in der Subquery – nur für Aurich!'
+  },
+];
+
+function buildTasks() {
+  const container = document.getElementById('tasks');
+  if(container) {
+    container.innerHTML = tasks.map(t => `
+      <div class="task-card" id="task-${t.id}">
+        <div class="task-header" onclick="toggleTask('${t.id}')">
+          <div class="task-label">
+            <span class="task-badge">${t.label}</span>
+            <span class="task-text">${t.text}</span>
+          </div>
+          <span class="task-chevron">▶</span>
+        </div>
+        <div class="task-body">
+          ${t.hint ? `<div class="info-box" style="margin-top:0.75rem;margin-bottom:0;">💡 ${t.hint}</div>` : ''}
+          <div class="code-block" style="margin-top:0.75rem;">${colorize(t.solution)}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+  
+  const container2 = document.getElementById('gesamtklausur-tasks');
+  if(container2) {
+    container2.innerHTML = tasks.map(t => `
+      <div class="task-card" id="g-task-${t.id}">
+        <div class="task-header" onclick="this.parentNode.classList.toggle('open')">
+          <div class="task-label">
+            <span class="task-badge">${t.label}</span>
+            <span class="task-text">${t.text}</span>
+          </div>
+          <span class="task-chevron">▶</span>
+        </div>
+        <div class="task-body">
+          ${t.hint ? `<div class="info-box" style="margin-top:0.75rem;margin-bottom:0;">💡 ${t.hint}</div>` : ''}
+          <div class="code-block" style="margin-top:0.75rem;">${colorize(t.solution)}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+}
+
+function toggleTask(id) {
+  const card = document.getElementById('task-' + id);
+  card.classList.toggle('open');
+}
+
+function colorize(sql) {
+  return sql
+    .replace(/\b(SELECT|FROM|WHERE|GROUP BY|HAVING|ORDER BY|LIMIT|AND|OR|IN|AS|DESC|ASC|NOT)\b/g, '<span class="kw">$1</span>')
+    .replace(/\b(COUNT|SUM|AVG|MAX|MIN)\b/g, '<span class="fn">$1</span>')
+    .replace(/'([^']*)'/g, '<span class="str">\'$1\'</span>');
+}
+
+// QUIZ
+const questions = [
+  {
+    q: 'Welche Klausel filtert Gruppen – nicht einzelne Zeilen?',
+    opts: ['WHERE', 'HAVING', 'GROUP BY', 'ORDER BY'],
+    correct: 1,
+    feedback: 'HAVING filtert nach der Gruppierung. WHERE kann keine Aggregatfunktionen enthalten!'
+  },
+  {
+    q: 'Was ist die korrekte Definition von Redundanz in relationalen Datenbanken?',
+    opts: ['Das Fehlen von Daten', 'Die Wiederholung von Informationen in der Datenbank', 'Die Löschung von Daten', 'Erhöhung der Speichernutzung'],
+    correct: 1,
+    feedback: 'Redundanz = mehrfach gespeicherte gleiche Informationen → führt zu Anomalien.'
+  },
+  {
+    q: 'Welche Normalform verhindert partielle (teilweise) Abhängigkeiten?',
+    opts: ['1NF', '2NF', '3NF', '4NF'],
+    correct: 1,
+    feedback: 'Die 2NF verlangt, dass jedes Nicht-Schlüssel-Attribut vom gesamten Primärschlüssel abhängt.'
+  },
+  {
+    q: 'Bei einer Subquery mit = Operator: Was muss die Unterabfrage liefern?',
+    opts: ['Beliebig viele Werte', 'Genau einen Wert', 'Mindestens zwei Werte', 'Eine vollständige Tabelle'],
+    correct: 1,
+    feedback: 'Bei = muss die Subquery exakt einen Wert liefern. Bei mehreren Werten → IN verwenden.'
+  },
+  {
+    q: 'Was ist ein zusammengesetzter Schlüssel?',
+    opts: ['Ein Schlüssel aus einem Attribut', 'Ein Schlüssel aus mehreren Attributen', 'Ein Fremdschlüssel', 'Ein Schlüssel aus zwei Tabellen'],
+    correct: 1,
+    feedback: 'Ein zusammengesetzter Schlüssel besteht aus mehreren Attributen, z.B. (KundeID, BestellNr).'
+  },
+  {
+    q: 'In welcher Reihenfolge wertet SQL die Klauseln aus?',
+    opts: ['SELECT → FROM → WHERE → GROUP BY → HAVING', 'FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY', 'WHERE → FROM → GROUP BY → SELECT', 'GROUP BY → WHERE → HAVING → SELECT'],
+    correct: 1,
+    feedback: 'Die korrekte Auswertungsreihenfolge: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT'
+  },
+];
+
+let answered = 0;
+
+function buildQuiz() {
+  const container = document.getElementById('quiz-container');
+  container.innerHTML = questions.map((q, i) => `
+    <div class="quiz-q" id="qblock-${i}">
+      <div class="quiz-num">Frage ${i+1} von ${questions.length}</div>
+      <p>${q.q}</p>
+      <div class="quiz-opts">
+        ${q.opts.map((o, j) => `<button class="quiz-opt" onclick="answer(${i},${j})" id="qopt-${i}-${j}">${o}</button>`).join('')}
+      </div>
+      <div id="qfb-${i}" class="quiz-fb" style="display:none;"></div>
+    </div>
+  `).join('');
+}
+
+function answer(qi, oi) {
+  const q = questions[qi];
+  const opts = document.querySelectorAll(`#qblock-${qi} .quiz-opt`);
+  opts.forEach(o => o.disabled = true);
+  const fb = document.getElementById(`qfb-${qi}`);
+  if (oi === q.correct) {
+    document.getElementById(`qopt-${qi}-${oi}`).classList.add('correct');
+    fb.textContent = '✓ Richtig! ' + q.feedback;
+    fb.className = 'quiz-fb ok';
+    answered++;
+  } else {
+    document.getElementById(`qopt-${qi}-${oi}`).classList.add('wrong');
+    document.getElementById(`qopt-${qi}-${q.correct}`).classList.add('correct');
+    fb.textContent = '✗ Nicht ganz. ' + q.feedback;
+    fb.className = 'quiz-fb err';
+    answered++;
+  }
+  fb.style.display = 'block';
+  updateProgress();
+}
+
+function updateProgress() {
+  const pct = Math.round((answered / questions.length) * 100);
+  document.getElementById('pb').style.width = pct + '%';
+  document.getElementById('pb-score').textContent = answered + ' / ' + questions.length + ' Fragen';
+}
+
+buildTasks();
+buildQuiz();
+</script>
+</body>
+</html>
