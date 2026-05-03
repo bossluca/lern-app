@@ -109,6 +109,9 @@ const stats = {
     if (this._d) return this._d;
     const r = localStorage.getItem(STATS_KEY);
     this._d = r ? JSON.parse(r) : this._defaults();
+    if (!this._d.exams) this._d.exams = [];
+    if (!this._d.daily) this._d.daily = {};
+    if (!this._d.topicStats) this._d.topicStats = {};
     return this._d;
   },
   save() { localStorage.setItem(STATS_KEY, JSON.stringify(this._d)); },
@@ -401,14 +404,31 @@ function updateStreakDisplay() {
 
 // ── Initial Data ───────────────────────────────────────────
 async function loadInitialData() {
-  if (store.load()) return;
-  for (const path of ['fragen.json', '../fragen.json']) {
-    try {
-      const resp = await fetch(path);
-      if (resp.ok) { const data = await resp.json(); store.setTopics(Array.isArray(data) ? data : [data]); return; }
-    } catch (_) {}
+  const currentData = store.load();
+  // Check if we need to load or migrate data (if lernfeld is missing)
+  if (!currentData || (currentData.length > 0 && !currentData[0].lernfeld)) {
+    let freshData = null;
+    for (const path of ['fragen.json', '../fragen.json']) {
+      try {
+        const resp = await fetch(path);
+        if (resp.ok) { freshData = await resp.json(); freshData = Array.isArray(freshData) ? freshData : [freshData]; break; }
+      } catch (_) {}
+    }
+    if (!freshData) freshData = FALLBACK_DATA;
+    
+    if (!currentData) {
+      store.setTopics(freshData);
+    } else {
+      const merged = store.getTopics();
+      // Migration für Lernfelder und neue Themen
+      for (const nt of freshData) {
+        const existing = merged.find(t => t.thema === nt.thema);
+        if (existing) existing.lernfeld = nt.lernfeld;
+        else merged.push(nt);
+      }
+      store.setTopics(merged);
+    }
   }
-  store.setTopics(FALLBACK_DATA);
 }
 
 // ── Dashboard ──────────────────────────────────────────────
@@ -455,7 +475,7 @@ function renderDashboard(root) {
   }
 
   // Topics
-  screen.appendChild(h('h2', { className: 'heading-md', style: 'margin-bottom:16px;' }, 'Deine Themen'));
+  screen.appendChild(h('h2', { className: 'heading-md', style: 'margin-bottom:16px;' }, 'Lernfelder & Themen'));
 
   if (topics.length === 0) {
     const emp = h('div', { className: 'empty-state' });
@@ -464,20 +484,50 @@ function renderDashboard(root) {
     emp.appendChild(h('button', { className: 'btn btn-primary', onClick: () => router.go('stats') }, '➕ Fragen importieren'));
     screen.appendChild(emp);
   } else {
-    const grid = h('div', { className: 'topic-grid stagger' });
+    // Group topics by Lernfeld
+    const grouped = {};
     topics.forEach((t, i) => {
-      const pct = stats.getTopicPct(t.thema);
-      const card = h('div', { className: 'topic-card', onClick: () => router.go('quiz-go', { indices: [i] }) });
-      card.appendChild(h('span', { className: 'topic-card__emoji' }, t.emoji || '📚'));
-      card.appendChild(h('div', { className: 'topic-card__name' }, t.thema));
-      card.appendChild(h('div', { className: 'topic-card__count' }, `${t.fragen?.length || 0} Fragen`));
-      const bar = h('div', { className: 'progress-bar' });
-      bar.appendChild(h('div', { className: 'progress-bar__fill', style: `width:${pct}%` }));
-      card.appendChild(bar);
-      card.appendChild(h('div', { className: 'progress-text' }, `${pct}% richtig`));
-      grid.appendChild(card);
+      const lf = t.lernfeld || 'Sonstiges';
+      if (!grouped[lf]) grouped[lf] = [];
+      grouped[lf].push({ t, i });
     });
-    screen.appendChild(grid);
+
+    for (const [lfName, tList] of Object.entries(grouped)) {
+      let lfTotalQ = 0;
+      let lfCorrect = 0;
+      let lfWrong = 0;
+      tList.forEach(({t}) => {
+         lfTotalQ += t.fragen?.length || 0;
+         const ts = stats.getTopicStats(t.thema);
+         lfCorrect += ts.correct;
+         lfWrong += ts.wrong;
+      });
+      const lfMastery = (lfCorrect + lfWrong) > 0 ? Math.round(lfCorrect / (lfCorrect + lfWrong) * 100) : 0;
+
+      const lfHeader = h('div', { style: 'display:flex; justify-content:space-between; align-items:flex-end; margin-top:28px; margin-bottom:12px; border-bottom:1px solid var(--glass-border2); padding-bottom:4px;' });
+      lfHeader.appendChild(h('h3', { className: 'heading-sm', style: 'color:var(--text2);text-transform:uppercase;letter-spacing:1px;font-size:0.8rem;margin:0;' }, lfName));
+      
+      const lfScore = h('div', { style: 'text-align:right;' });
+      lfScore.appendChild(h('div', { style: 'font-weight:600; font-size:0.9rem; color:var(--text);' }, `${lfMastery}% Meisterschaft`));
+      lfScore.appendChild(h('div', { style: 'font-size:0.75rem; color:var(--text3);' }, `${lfTotalQ} Fragen gesamt`));
+      lfHeader.appendChild(lfScore);
+
+      screen.appendChild(lfHeader);
+      const grid = h('div', { className: 'topic-grid stagger' });
+      tList.forEach(({t, i}) => {
+        const pct = stats.getTopicPct(t.thema);
+        const card = h('div', { className: 'topic-card', onClick: () => router.go('quiz-go', { indices: [i] }) });
+        card.appendChild(h('span', { className: 'topic-card__emoji' }, t.emoji || '📚'));
+        card.appendChild(h('div', { className: 'topic-card__name' }, t.thema));
+        card.appendChild(h('div', { className: 'topic-card__count' }, `${t.fragen?.length || 0} Fragen`));
+        const bar = h('div', { className: 'progress-bar' });
+        bar.appendChild(h('div', { className: 'progress-bar__fill', style: `width:${pct}%` }));
+        card.appendChild(bar);
+        card.appendChild(h('div', { className: 'progress-text' }, `${pct}% richtig`));
+        grid.appendChild(card);
+      });
+      screen.appendChild(grid);
+    }
   }
 
   root.appendChild(screen);
@@ -597,8 +647,21 @@ function renderLearnSession(root, params = {}) {
     if (revealed) {
       card.appendChild(h('div', { style: 'width:60px;height:1px;background:var(--glass-border2);margin:20px auto;' }));
       card.appendChild(h('div', { style: 'font-size:0.72rem;color:var(--teal);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px;font-weight:600;' }, 'ANTWORT'));
-      const ansText = q.typ === 'mc' ? q.optionen[q.antwort] : q.antwort;
-      card.appendChild(h('div', { style: 'font-size:1.05rem;color:var(--text);line-height:1.6;' }, ansText));
+      
+      if (q.typ === 'multi_freitext') {
+        const wrap = h('div', { style: 'margin-top:12px; font-size:0.95rem; text-align:left; display:inline-block; max-width:80%;' });
+        q.antworten.forEach(A => {
+          wrap.appendChild(h('div', { style: 'margin-bottom:8px;' },
+            h('span', { style: 'font-weight:bold; color:var(--text2); display:block; font-size:0.8rem;' }, A.label),
+            h('span', { style: 'color:var(--text);' }, A.loesung)
+          ));
+        });
+        card.appendChild(wrap);
+      } else {
+        const ansText = q.typ === 'mc' ? q.optionen[q.antwort] : q.antwort;
+        card.appendChild(h('div', { style: 'font-size:1.05rem;color:var(--text);line-height:1.6;' }, ansText));
+      }
+
       if (q.erklaerung) {
          card.appendChild(h('div', { style: 'margin-top:16px; font-size:0.85rem; color:var(--text2); background:var(--bg3); padding:12px; border-radius:6px; border-left:3px solid var(--accent); white-space:pre-wrap; text-align:left;' }, q.erklaerung));
       }
@@ -863,6 +926,48 @@ function renderQuiz(root, params) {
         opts.appendChild(btn);
       });
       screen.appendChild(opts);
+    } else if (q.typ === 'multi_freitext') {
+      const formWrap = h('div', { className: 'quiz-input-wrap', style: 'text-align:left; padding:8px;' });
+      const inputs = [];
+      q.antworten.forEach(ans => {
+        formWrap.appendChild(h('label', { style: 'font-weight:600; font-size:0.85rem; margin-bottom:4px; display:block;' }, ans.label));
+        const inp = h('input', { className: 'quiz-input', type: 'text', placeholder: '...' });
+        inp.style.marginBottom = '12px';
+        inputs.push(inp);
+        formWrap.appendChild(inp);
+      });
+      screen.appendChild(formWrap);
+
+      const checkBtn = h('button', {
+        className: 'btn btn-primary btn-full', onClick: () => {
+          if (answered) return;
+          answered = true;
+          let correctCount = 0;
+          inputs.forEach((inp, i) => {
+            const userAns = inp.value.trim().toLowerCase();
+            const correct = String(q.antworten[i].loesung).trim().toLowerCase();
+            const isCorrect = userAns && (userAns === correct || correct.includes(userAns) || userAns.includes(correct));
+            inp.classList.add(isCorrect ? 'correct' : 'wrong');
+            inp.disabled = true;
+            if (isCorrect) correctCount++;
+          });
+          
+          const totalFields = q.antworten.length;
+          const pct = correctCount / totalFields;
+          const isOverallCorrect = pct >= 0.5; 
+          score += pct; 
+          
+          stats.recordAnswer(q._topic, isOverallCorrect);
+          
+          let exT = ``;
+          q.antworten.forEach(a => exT += `[${a.label}: ${a.loesung}] `);
+          
+          showFeedback(feedbackEl, pct === 1 ? true : (pct > 0 ? null : false), `Teilpunkte: ${correctCount}/${totalFields}. Lösungen: ${exT}`, q.erklaerung);
+          nextBtnWrap.style.display = 'block';
+          checkBtn.style.display = 'none';
+        }
+      }, 'Antwort prüfen →');
+      screen.appendChild(checkBtn);
     } else {
       const wrap = h('div', { className: 'quiz-input-wrap' });
       const inp = h('input', { className: 'quiz-input', type: 'text', placeholder: 'Deine Antwort...' });
@@ -964,18 +1069,43 @@ function renderExamSetup(root) {
   screen.appendChild(h('h3', { className: 'heading-md', style: 'margin-bottom:12px;' }, 'Themen auswählen'));
   const selected = new Set();
   const list = h('div', { className: 'topic-select-list' });
+
+  const grouped = {};
   topics.forEach((t, i) => {
-    const cb = h('input', { type: 'checkbox', id: `ex_${i}` });
-    const item = h('div', { className: 'topic-select-item', onClick: () => {
-      cb.checked = !cb.checked;
-      item.classList.toggle('selected', cb.checked);
-      cb.checked ? selected.add(i) : selected.delete(i);
-    }});
-    item.appendChild(cb);
-    item.appendChild(h('span', { className: 'topic-select-item__name' }, `${t.emoji || '📚'} ${t.thema}`));
-    item.appendChild(h('span', { className: 'topic-select-item__count' }, `${t.fragen?.length || 0}`));
-    list.appendChild(item);
+    const lf = t.lernfeld || 'Sonstiges';
+    if (!grouped[lf]) grouped[lf] = [];
+    grouped[lf].push({ t, i });
   });
+
+  for (const [lfName, tList] of Object.entries(grouped)) {
+    const groupHdr = h('div', { className: 'topic-group-hdr', style: 'padding:12px; font-weight:600; color:var(--text2); background:rgba(0,0,0,0.1); display:flex; justify-content:space-between; align-items:center; border-radius:8px; margin-top:8px;' }, lfName);
+    
+    const selAllLf = h('button', { className: 'btn btn-ghost btn-sm', style: 'padding:4px 8px; font-size:0.75rem;', onClick: () => {
+      let allSel = true;
+      tList.forEach(({i}) => { if (!selected.has(i)) allSel = false; });
+      tList.forEach(({i}) => {
+        const item = list.querySelector(`#ex_item_${i}`);
+        const cb = item.querySelector('input');
+        if (allSel) { selected.delete(i); cb.checked = false; item.classList.remove('selected'); }
+        else { selected.add(i); cb.checked = true; item.classList.add('selected'); }
+      });
+    }}, 'Umschalten');
+    groupHdr.appendChild(selAllLf);
+    list.appendChild(groupHdr);
+
+    tList.forEach(({t, i}) => {
+      const cb = h('input', { type: 'checkbox', id: `ex_${i}` });
+      const item = h('div', { className: 'topic-select-item', id: `ex_item_${i}`, onClick: () => {
+        cb.checked = !cb.checked;
+        item.classList.toggle('selected', cb.checked);
+        cb.checked ? selected.add(i) : selected.delete(i);
+      }});
+      item.appendChild(cb);
+      item.appendChild(h('span', { className: 'topic-select-item__name' }, `${t.emoji || '📚'} ${t.thema}`));
+      item.appendChild(h('span', { className: 'topic-select-item__count' }, `${t.fragen?.length || 0}`));
+      list.appendChild(item);
+    });
+  }
   screen.appendChild(list);
   screen.appendChild(h('button', {
     className: 'btn btn-ghost btn-sm', style: 'margin:8px 0 20px;', onClick: () => {
@@ -1091,6 +1221,16 @@ function renderExamRun(root, params) {
   const answers = new Array(questions.length).fill(null);
   const flags = new Array(questions.length).fill(false);
   const freitextAnswers = new Array(questions.length).fill('');
+
+  function isAnswered(i) {
+    const q = questions[i];
+    if (q.typ === 'mc') return answers[i] !== null;
+    if (q.typ === 'multi_freitext') {
+      if (!Array.isArray(freitextAnswers[i])) return false;
+      return freitextAnswers[i].every(v => (v || '').trim() !== '');
+    }
+    return (freitextAnswers[i] || '').trim() !== '';
+  }
   let currentIdx = 0;
   let timeLeft = timeLimitSec;
   let timerInterval = null;
@@ -1167,22 +1307,40 @@ function renderExamRun(root, params) {
         opts.appendChild(btn);
       });
       screen.appendChild(opts);
+    } else if (q.typ === 'multi_freitext') {
+      const wrap = h('div', { className: 'quiz-input-wrap', style: 'text-align:left;' });
+      if (!Array.isArray(freitextAnswers[currentIdx])) {
+        // Initialize array for this question
+        freitextAnswers[currentIdx] = q.antworten.map(() => '');
+      }
+      q.antworten.forEach((ans, idx) => {
+        wrap.appendChild(h('label', { style: 'font-weight:600; font-size:0.85rem; margin-bottom:4px; display:block;' }, ans.label));
+        const inp = h('input', { type: 'text', className: 'form-input', placeholder: '...' });
+        inp.style.marginBottom = '12px';
+        inp.value = freitextAnswers[currentIdx][idx] || '';
+        inp.addEventListener('input', (e) => {
+          freitextAnswers[currentIdx][idx] = e.target.value;
+          updateNavigator();
+          if (isHardcore) {
+            const nextBtn = document.getElementById('hc-weiter-btn');
+            if (nextBtn) nextBtn.style.opacity = isAnswered(currentIdx) ? '1' : '0.5';
+          }
+        });
+        wrap.appendChild(inp);
+      });
+      screen.appendChild(wrap);
     } else {
       const wrap = h('div', { className: 'quiz-input-wrap' });
       const inp = h('input', {
         className: 'quiz-input', type: 'text',
         placeholder: 'Deine Antwort...',
-        value: freitextAnswers[currentIdx] || ''
+        value: typeof freitextAnswers[currentIdx] === 'string' ? freitextAnswers[currentIdx] : ''
       });
       inp.addEventListener('input', (e) => { 
         freitextAnswers[currentIdx] = e.target.value; 
         if (isHardcore) {
-          // just update the button visually if possible, or re-render
           const nextBtn = document.getElementById('hc-weiter-btn');
-          if (nextBtn) {
-             const isAns = e.target.value.trim() !== '';
-             nextBtn.style.opacity = isAns ? '1' : '0.5';
-          }
+          if (nextBtn) nextBtn.style.opacity = isAnswered(currentIdx) ? '1' : '0.5';
         }
       });
       wrap.appendChild(inp);
@@ -1191,7 +1349,7 @@ function renderExamRun(root, params) {
 
     // Actions
     const actions = h('div', { style: 'display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;' });
-    const isThisAnswered = q.typ === 'mc' ? answers[currentIdx] !== null : freitextAnswers[currentIdx].trim() !== '';
+    const isThisAnswered = isAnswered(currentIdx);
 
     // Flag button
     if (!isHardcore) {
@@ -1222,9 +1380,7 @@ function renderExamRun(root, params) {
       className: 'btn btn-danger',
       style: 'margin-left:auto;',
       onClick: () => {
-        const unanswered = questions.filter((q, i) =>
-          q.typ === 'mc' ? answers[i] === null : !freitextAnswers[i].trim()
-        ).length;
+        const unanswered = questions.filter((q, i) => !isAnswered(i)).length;
         if (unanswered > 0 && !confirm(`${unanswered} Fragen unbeantwortet. Trotzdem abgeben?`)) return;
         finishExam();
       }
@@ -1234,11 +1390,11 @@ function renderExamRun(root, params) {
     // Navigator
     const nav = h('div', { className: 'exam-navigator', id: 'exam-nav' });
     questions.forEach((q, i) => {
-      const isAnswered = q.typ === 'mc' ? answers[i] !== null : freitextAnswers[i].trim() !== '';
+      const isAns = isAnswered(i);
       let cls = 'exam-nav-btn';
       if (i === currentIdx) cls += ' current';
       else if (flags[i]) cls += ' flagged';
-      else if (isAnswered) cls += ' answered';
+      else if (isAns) cls += ' answered';
       const nbtn = h('button', { className: cls, onClick: () => { 
         if (isHardcore) return; // Disallow jumping in Hardcore
         currentIdx = i; renderQuestion(); 
@@ -1259,12 +1415,10 @@ function renderExamRun(root, params) {
     const nav = document.getElementById('exam-nav');
     if (!nav) return;
     nav.querySelectorAll('.exam-nav-btn').forEach((btn, i) => {
-      const q = questions[i];
-      const isAnswered = q.typ === 'mc' ? answers[i] !== null : freitextAnswers[i].trim() !== '';
       btn.className = 'exam-nav-btn';
       if (i === currentIdx) btn.classList.add('current');
       else if (flags[i]) btn.classList.add('flagged');
-      else if (isAnswered) btn.classList.add('answered');
+      else if (isAnswered(i)) btn.classList.add('answered');
     });
   }
 
@@ -1279,22 +1433,35 @@ function renderExamRun(root, params) {
       topicResults[q._topic].total++;
 
       let isCorrect = false;
+      let pts = 0;
       if (q.typ === 'mc') {
         isCorrect = answers[i] === q.antwort;
+        if (isCorrect) pts = 1;
+      } else if (q.typ === 'multi_freitext') {
+        if (!Array.isArray(freitextAnswers[i])) freitextAnswers[i] = [];
+        let cCount = 0;
+        q.antworten.forEach((ans, fIdx) => {
+           const uAns = (freitextAnswers[i][fIdx] || '').trim().toLowerCase();
+           const cAns = String(ans.loesung).trim().toLowerCase();
+           if (uAns && (uAns === cAns || cAns.includes(uAns) || uAns.includes(cAns))) cCount++;
+        });
+        pts = cCount / q.antworten.length;
+        isCorrect = pts >= 0.5;
       } else {
-        const userAns = (freitextAnswers[i] || '').trim().toLowerCase();
-        const correct = q.antwort.trim().toLowerCase();
+        const userAns = (typeof freitextAnswers[i] === 'string' ? freitextAnswers[i] : '').trim().toLowerCase();
+        const correct = String(q.antwort || '').trim().toLowerCase();
         isCorrect = userAns && (userAns === correct || correct.includes(userAns) || userAns.includes(correct));
+        if (isCorrect) pts = 1;
       }
-      if (isCorrect) {
-        score++;
-        topicResults[q._topic].correct++;
-      }
+      
+      score += pts;
+      if (isCorrect) topicResults[q._topic].correct++;
     });
 
     const examData = {
       date: today(),
-      score, total: questions.length,
+      score: Math.round(score * 10) / 10,
+      total: questions.length,
       durationSec,
       pct: Math.round(score / questions.length * 100),
       topics: topicResults
@@ -1346,12 +1513,30 @@ function renderExamResults(root, examData, questions, answers, freitextAnswers) 
     questions.forEach((q, i) => {
       let isCorrect;
       if (q.typ === 'mc') isCorrect = answers[i] === q.antwort;
-      else {
-        const u = (freitextAnswers[i] || '').trim().toLowerCase();
-        const c = q.antwort.trim().toLowerCase();
+      else if (q.typ === 'multi_freitext') {
+        let cCount = 0;
+        if (Array.isArray(freitextAnswers[i])) {
+          q.antworten.forEach((ans, fIdx) => {
+             const uAns = (freitextAnswers[i][fIdx] || '').trim().toLowerCase();
+             const cAns = String(ans.loesung).trim().toLowerCase();
+             if (uAns && (uAns === cAns || cAns.includes(uAns) || uAns.includes(cAns))) cCount++;
+          });
+        }
+        isCorrect = (cCount / q.antworten.length) === 1; // Only perfectly correct avoid the "wrongs" list
+      } else {
+        const u = (typeof freitextAnswers[i] === 'string' ? freitextAnswers[i] : '').trim().toLowerCase();
+        const c = String(q.antwort || '').trim().toLowerCase();
         isCorrect = u && (u === c || c.includes(u) || u.includes(c));
       }
-      if (!isCorrect) wrongs.push({ q, userAnswer: q.typ === 'mc' ? (answers[i] !== null ? q.optionen[answers[i]] : 'Nicht beantwortet') : (freitextAnswers[i] || 'Nicht beantwortet') });
+      if (!isCorrect) {
+        let uAnsText;
+        if (q.typ === 'mc') uAnsText = answers[i] !== null ? q.optionen[answers[i]] : 'Nicht beantwortet';
+        else if (q.typ === 'multi_freitext') {
+           const arr = Array.isArray(freitextAnswers[i]) ? freitextAnswers[i] : [];
+           uAnsText = arr.map(a => a || '-').join(', ');
+        } else uAnsText = freitextAnswers[i] || 'Nicht beantwortet';
+        wrongs.push({ q, userAnswer: uAnsText });
+      }
     });
 
     if (wrongs.length > 0) {
@@ -1361,7 +1546,10 @@ function renderExamResults(root, examData, questions, answers, freitextAnswers) 
         const item = h('div', { className: 'question-item', style: 'flex-direction:column;gap:8px;' });
         item.appendChild(h('div', { style: 'font-weight:600;font-size:0.9rem;' }, w.q.frage));
         item.appendChild(h('div', { style: 'color:var(--red);font-size:0.82rem;' }, `Deine Antwort: ${w.userAnswer}`));
-        const correctAns = w.q.typ === 'mc' ? w.q.optionen[w.q.antwort] : w.q.antwort;
+        let correctAns;
+        if (w.q.typ === 'mc') correctAns = w.q.optionen[w.q.antwort];
+        else if (w.q.typ === 'multi_freitext') correctAns = w.q.antworten.map(a => `[${a.label}: ${a.loesung}]`).join(', ');
+        else correctAns = w.q.antwort;
         item.appendChild(h('div', { style: 'color:var(--green);font-size:0.82rem;' }, `Richtig: ${correctAns}`));
         wrongList.appendChild(item);
       });

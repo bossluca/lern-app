@@ -3,216 +3,1653 @@
     "thema": "Projektmanagement",
     "emoji": "📊",
     "fragen": [
-      {"typ":"mc","frage":"Welches Modell ist dokumentgetrieben und arbeitet nach der Top-Down-Methode?","optionen":["Scrum","Wasserfallmodell","Kanban","V-Modell"],"antwort":1},
-      {"typ":"mc","frage":"Wie lange dauert ein Sprint in Scrum in der Regel?","optionen":["1 Tag","1–4 Wochen","3 Monate","6 Monate"],"antwort":1},
-      {"typ":"mc","frage":"Wer ist für das Product Backlog verantwortlich?","optionen":["Scrum Master","Entwicklerteam","Product Owner","Stakeholder"],"antwort":2},
-      {"typ":"mc","frage":"Wie viele Personen umfasst ein Scrum-Entwicklerteam mindestens und maximal?","optionen":["1–5","3–9","5–15","2–10"],"antwort":1},
-      {"typ":"mc","frage":"Was ist das SMART-Prinzip?","optionen":["Ein Verschlüsselungsverfahren","Eine Methode zur Zieldefinition (Spezifisch, Messbar, Attraktiv, Realistisch, Terminiert)","Ein Netzwerkprotokoll","Eine Programmiersprache"],"antwort":1},
-      {"typ":"freitext","frage":"Wozu dient die Vorwärtsrechnung beim Netzplan?","antwort":"Dient dazu den frühestmöglichen Endzeitpunkt zu ermitteln"},
-      {"typ":"freitext","frage":"Wozu dient die Rückwärtsrechnung beim Netzplan?","antwort":"Zu ermitteln wann mit einem Vorgang spätestens begonnen werden muss damit das Projektende gehalten werden kann"},
-      {"typ":"freitext","frage":"Was gibt der Gesamtpuffer im Netzplan an?","antwort":"Um wie viele Zeiteinheiten sich das Projekt verschieben darf"},
-      {"typ":"freitext","frage":"Was gibt der Freie Puffer im Netzplan an?","antwort":"Um wie viele Zeiteinheiten sich ein Vorgang verzögern darf bevor sich der unmittelbare Nachfolger verschiebt"},
-      {"typ":"mc","frage":"Welches Diagramm macht parallele Vorgänge visuell direkt ersichtlich?","optionen":["Netzplan","Gantt-Diagramm","ER-Diagramm","Klassendiagramm"],"antwort":1},
-      {"typ":"mc","frage":"Wer nimmt am Daily Scrum teil?","optionen":["Nur der Scrum Master","Nur der Product Owner","Das Entwicklerteam (Scrum Master sollte, Product Owner kann)","Alle Stakeholder"],"antwort":2},
-      {"typ":"freitext","frage":"Wer erstellt das Lastenheft?","antwort":"Der Auftraggeber"},
-      {"typ":"freitext","frage":"Was beschreibt das Pflichtenheft?","antwort":"Wie die Anforderungen des Lastenhefts umgesetzt werden können"},
-      {"typ":"mc","frage":"Welche Rolle hat der Scrum Master?","optionen":["Er entwickelt Software","Er führt die Scrum-Regeln ein und sorgt für ungestörten Ablauf","Er ist der Projektleiter","Er schreibt das Lastenheft"],"antwort":1},
-      {"typ":"mc","frage":"Was ist ein Meilenstein im Projektmanagement?","optionen":["Ein wichtiger Zwischenpunkt/Prüfpunkt im Projekt","Der Projektstart","Das Projektbudget","Ein Stakeholder"],"antwort":0},
-      {"typ":"mc","frage":"Welche Reihenfolge haben die Projektphasen?","optionen":["Planung, Definition, Durchführung, Abschluss","Definition, Planung, Durchführung, Abschluss","Durchführung, Planung, Definition, Abschluss","Definition, Durchführung, Planung, Abschluss"],"antwort":1},
-      {"typ":"mc","frage":"Was ist die Stakeholder-Analyse?","optionen":["Eine Kostenanalyse","Ermittlung der Ziele, Motivation und Einstellungen der Stakeholder","Ein Netzwerkprotokoll","Eine Programmiersprache"],"antwort":1},
-      {"typ":"mc","frage":"Was ist ein Kickoff-Meeting?","optionen":["Das Abschlussmeeting","Das Initialmeeting, bei dem alle Projektmitglieder teilnehmen","Ein tägliches Standup","Eine Retrospektive"],"antwort":1},
-      {"typ":"mc","frage":"Welche Phasen der Teambildung gibt es (nach Tuckman)?","optionen":["Plan, Do, Check, Act","Forming, Storming, Norming, Performing","Analyse, Design, Implementierung, Test","Sprint, Review, Retro, Planning"],"antwort":1}
-    ]
+      {
+        "typ": "mc",
+        "frage": "Welches Modell ist dokumentgetrieben und arbeitet nach der Top-Down-Methode?",
+        "optionen": [
+          "Scrum",
+          "Wasserfallmodell",
+          "Kanban",
+          "V-Modell"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Wie lange dauert ein Sprint in Scrum in der Regel?",
+        "optionen": [
+          "1 Tag",
+          "1–4 Wochen",
+          "3 Monate",
+          "6 Monate"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Wer ist für das Product Backlog verantwortlich?",
+        "optionen": [
+          "Scrum Master",
+          "Entwicklerteam",
+          "Product Owner",
+          "Stakeholder"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "mc",
+        "frage": "Wie viele Personen umfasst ein Scrum-Entwicklerteam mindestens und maximal?",
+        "optionen": [
+          "1–5",
+          "3–9",
+          "5–15",
+          "2–10"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist das SMART-Prinzip?",
+        "optionen": [
+          "Ein Verschlüsselungsverfahren",
+          "Eine Methode zur Zieldefinition (Spezifisch, Messbar, Attraktiv, Realistisch, Terminiert)",
+          "Ein Netzwerkprotokoll",
+          "Eine Programmiersprache"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "freitext",
+        "frage": "Wozu dient die Vorwärtsrechnung beim Netzplan?",
+        "antwort": "Dient dazu den frühestmöglichen Endzeitpunkt zu ermitteln"
+      },
+      {
+        "typ": "freitext",
+        "frage": "Wozu dient die Rückwärtsrechnung beim Netzplan?",
+        "antwort": "Zu ermitteln wann mit einem Vorgang spätestens begonnen werden muss damit das Projektende gehalten werden kann"
+      },
+      {
+        "typ": "freitext",
+        "frage": "Was gibt der Gesamtpuffer im Netzplan an?",
+        "antwort": "Um wie viele Zeiteinheiten sich das Projekt verschieben darf"
+      },
+      {
+        "typ": "freitext",
+        "frage": "Was gibt der Freie Puffer im Netzplan an?",
+        "antwort": "Um wie viele Zeiteinheiten sich ein Vorgang verzögern darf bevor sich der unmittelbare Nachfolger verschiebt"
+      },
+      {
+        "typ": "mc",
+        "frage": "Welches Diagramm macht parallele Vorgänge visuell direkt ersichtlich?",
+        "optionen": [
+          "Netzplan",
+          "Gantt-Diagramm",
+          "ER-Diagramm",
+          "Klassendiagramm"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Wer nimmt am Daily Scrum teil?",
+        "optionen": [
+          "Nur der Scrum Master",
+          "Nur der Product Owner",
+          "Das Entwicklerteam (Scrum Master sollte, Product Owner kann)",
+          "Alle Stakeholder"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "freitext",
+        "frage": "Wer erstellt das Lastenheft?",
+        "antwort": "Der Auftraggeber"
+      },
+      {
+        "typ": "freitext",
+        "frage": "Was beschreibt das Pflichtenheft?",
+        "antwort": "Wie die Anforderungen des Lastenhefts umgesetzt werden können"
+      },
+      {
+        "typ": "mc",
+        "frage": "Welche Rolle hat der Scrum Master?",
+        "optionen": [
+          "Er entwickelt Software",
+          "Er führt die Scrum-Regeln ein und sorgt für ungestörten Ablauf",
+          "Er ist der Projektleiter",
+          "Er schreibt das Lastenheft"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist ein Meilenstein im Projektmanagement?",
+        "optionen": [
+          "Ein wichtiger Zwischenpunkt/Prüfpunkt im Projekt",
+          "Der Projektstart",
+          "Das Projektbudget",
+          "Ein Stakeholder"
+        ],
+        "antwort": 0
+      },
+      {
+        "typ": "mc",
+        "frage": "Welche Reihenfolge haben die Projektphasen?",
+        "optionen": [
+          "Planung, Definition, Durchführung, Abschluss",
+          "Definition, Planung, Durchführung, Abschluss",
+          "Durchführung, Planung, Definition, Abschluss",
+          "Definition, Durchführung, Planung, Abschluss"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist die Stakeholder-Analyse?",
+        "optionen": [
+          "Eine Kostenanalyse",
+          "Ermittlung der Ziele, Motivation und Einstellungen der Stakeholder",
+          "Ein Netzwerkprotokoll",
+          "Eine Programmiersprache"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist ein Kickoff-Meeting?",
+        "optionen": [
+          "Das Abschlussmeeting",
+          "Das Initialmeeting, bei dem alle Projektmitglieder teilnehmen",
+          "Ein tägliches Standup",
+          "Eine Retrospektive"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Welche Phasen der Teambildung gibt es (nach Tuckman)?",
+        "optionen": [
+          "Plan, Do, Check, Act",
+          "Forming, Storming, Norming, Performing",
+          "Analyse, Design, Implementierung, Test",
+          "Sprint, Review, Retro, Planning"
+        ],
+        "antwort": 1
+      }
+    ],
+    "lernfeld": "LF11: IT-Projekte begleiten"
   },
   {
     "thema": "Qualitätsmanagement",
     "emoji": "✅",
     "fragen": [
-      {"typ":"mc","frage":"Wofür steht PDCA?","optionen":["Plan, Do, Check, Act","Plan, Design, Code, Analyze","Process, Data, Control, Action","Product, Development, Check, Approval"],"antwort":0},
-      {"typ":"freitext","frage":"Was bedeutet die Phase 'Plan' im PDCA-Zyklus?","antwort":"Ziele des Verbesserungsprozesses definieren und notwendige Maßnahmen planen"},
-      {"typ":"mc","frage":"Was prüft ein Modultest?","optionen":["Das gesamte System","Einzelne Module oder Komponenten","Die Benutzerfreundlichkeit","Die Netzwerkverbindung"],"antwort":1},
-      {"typ":"mc","frage":"Was ist ein Integrationstest?","optionen":["Test einzelner Module","Test der Komponenten im Zusammenspiel","Test durch den Auftraggeber","Ein Performance-Test"],"antwort":1},
-      {"typ":"mc","frage":"Wer führt den Abnahmetest durch?","optionen":["Der Entwickler","Der Scrum Master","Der Auftraggeber","Der Tester"],"antwort":2},
-      {"typ":"mc","frage":"Was ist ein Black-Box-Test?","optionen":["Test mit Kenntnis des Quellcodes","Test ohne Kenntnis des inneren Aufbaus","Ein Hardware-Test","Ein Sicherheitstest"],"antwort":1},
-      {"typ":"mc","frage":"Was ist ein White-Box-Test?","optionen":["Test ohne Kenntnis des Quellcodes","Test mit Kenntnis und Prüfung des Quellcodes","Ein Netzwerktest","Ein Usability-Test"],"antwort":1},
-      {"typ":"freitext","frage":"Nenne die sechs Qualitätsmerkmale von Software.","antwort":"Zuverlässigkeit, Funktionalität, Benutzbarkeit, Effizienz, Wartbarkeit, Portabilität"},
-      {"typ":"mc","frage":"Was ist TQM (Total Quality Management)?","optionen":["Ein Programmierframework","Organisationsweite Bemühungen zur kontinuierlichen Qualitätsverbesserung","Ein Verschlüsselungsverfahren","Eine Datenbank"],"antwort":1},
-      {"typ":"mc","frage":"Was ist der korrekte Ablauf im Qualitätsmanagement?","optionen":["Schulung → Zertifizierung → Audit","Ist-Analyse → Sollkonzept → Schulung → QM-Handbuch → Interne Audits → Zertifizierung","Zertifizierung → Ist-Analyse → Schulung","Audit → Schulung → Ist-Analyse"],"antwort":1}
-    ]
+      {
+        "typ": "mc",
+        "frage": "Wofür steht PDCA?",
+        "optionen": [
+          "Plan, Do, Check, Act",
+          "Plan, Design, Code, Analyze",
+          "Process, Data, Control, Action",
+          "Product, Development, Check, Approval"
+        ],
+        "antwort": 0
+      },
+      {
+        "typ": "freitext",
+        "frage": "Was bedeutet die Phase 'Plan' im PDCA-Zyklus?",
+        "antwort": "Ziele des Verbesserungsprozesses definieren und notwendige Maßnahmen planen"
+      },
+      {
+        "typ": "mc",
+        "frage": "Was prüft ein Modultest?",
+        "optionen": [
+          "Das gesamte System",
+          "Einzelne Module oder Komponenten",
+          "Die Benutzerfreundlichkeit",
+          "Die Netzwerkverbindung"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist ein Integrationstest?",
+        "optionen": [
+          "Test einzelner Module",
+          "Test der Komponenten im Zusammenspiel",
+          "Test durch den Auftraggeber",
+          "Ein Performance-Test"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Wer führt den Abnahmetest durch?",
+        "optionen": [
+          "Der Entwickler",
+          "Der Scrum Master",
+          "Der Auftraggeber",
+          "Der Tester"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist ein Black-Box-Test?",
+        "optionen": [
+          "Test mit Kenntnis des Quellcodes",
+          "Test ohne Kenntnis des inneren Aufbaus",
+          "Ein Hardware-Test",
+          "Ein Sicherheitstest"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist ein White-Box-Test?",
+        "optionen": [
+          "Test ohne Kenntnis des Quellcodes",
+          "Test mit Kenntnis und Prüfung des Quellcodes",
+          "Ein Netzwerktest",
+          "Ein Usability-Test"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "freitext",
+        "frage": "Nenne die sechs Qualitätsmerkmale von Software.",
+        "antwort": "Zuverlässigkeit, Funktionalität, Benutzbarkeit, Effizienz, Wartbarkeit, Portabilität"
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist TQM (Total Quality Management)?",
+        "optionen": [
+          "Ein Programmierframework",
+          "Organisationsweite Bemühungen zur kontinuierlichen Qualitätsverbesserung",
+          "Ein Verschlüsselungsverfahren",
+          "Eine Datenbank"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist der korrekte Ablauf im Qualitätsmanagement?",
+        "optionen": [
+          "Schulung → Zertifizierung → Audit",
+          "Ist-Analyse → Sollkonzept → Schulung → QM-Handbuch → Interne Audits → Zertifizierung",
+          "Zertifizierung → Ist-Analyse → Schulung",
+          "Audit → Schulung → Ist-Analyse"
+        ],
+        "antwort": 1
+      }
+    ],
+    "lernfeld": "LF11: IT-Projekte begleiten"
   },
   {
     "thema": "IT-Sicherheit & Datenschutz",
     "emoji": "🔒",
     "fragen": [
-      {"typ":"mc","frage":"Welche drei Schutzziele der Informationssicherheit gibt es?","optionen":["Verfügbarkeit, Vertraulichkeit, Integrität","Sicherheit, Schnelligkeit, Stabilität","Backup, Recovery, Monitoring","Authentizität, Autorisierung, Accounting"],"antwort":0},
-      {"typ":"freitext","frage":"Was bedeutet Vertraulichkeit?","antwort":"Daten dürfen nur von berechtigten Personen eingesehen oder offengelegt werden"},
-      {"typ":"freitext","frage":"Was bedeutet Integrität?","antwort":"Es darf nicht möglich sein Daten unbemerkt zu ändern, die Korrektheit muss gegeben sein"},
-      {"typ":"freitext","frage":"Was bedeutet Verfügbarkeit?","antwort":"Autorisierte Benutzer müssen Zugang zu den Informationen und Systemen haben"},
-      {"typ":"mc","frage":"Seit wann gilt die DSGVO?","optionen":["Mai 2016","Mai 2018","Januar 2020","März 2021"],"antwort":1},
-      {"typ":"mc","frage":"Ab wie vielen Personen, die automatisiert personenbezogene Daten verarbeiten, muss ein Datenschutzbeauftragter benannt werden?","optionen":["5","10","20","50"],"antwort":1},
-      {"typ":"mc","frage":"Was ist Phishing?","optionen":["Ein Verschlüsselungsverfahren","Gefälschte Websites/E-Mails zum Ermitteln vertraulicher Daten","Ein Backup-Verfahren","Eine Firewall-Regel"],"antwort":1},
-      {"typ":"freitext","frage":"Was ist Ransomware?","antwort":"Software die Daten auf fremden Systemen verschlüsselt oder den Zugang blockiert um Lösegeld zu erpressen"},
-      {"typ":"mc","frage":"Was ist ein DDoS-Angriff?","optionen":["Ein Virus","Eine Attacke, die einen Dienst durch massenhaft Anfragen aus verschiedenen Quellen überlastet","Ein Phishing-Versuch","Ein Backup-Fehler"],"antwort":1},
-      {"typ":"mc","frage":"Was ist der Unterschied zwischen symmetrischer und asymmetrischer Verschlüsselung?","optionen":["Symmetrisch nutzt einen Schlüssel, asymmetrisch nutzt ein Schlüsselpaar (öffentlich/privat)","Es gibt keinen Unterschied","Symmetrisch ist immer unsicherer","Asymmetrisch braucht keinen Schlüssel"],"antwort":0},
-      {"typ":"mc","frage":"Welches Verschlüsselungsverfahren nutzt WPA2?","optionen":["RSA","AES","DES","MD5"],"antwort":1},
-      {"typ":"mc","frage":"Was ist das BSI?","optionen":["Bundesamt für Statistik","Bundesamt für Sicherheit in der Informationstechnik","Bundes-Software-Institut","Behörde für System-Integration"],"antwort":1},
-      {"typ":"freitext","frage":"Was sind die Rechte der Betroffenen laut DSGVO? (3 nennen)","antwort":"Recht auf Auskunft, Recht auf Berichtigung, Recht auf Löschung"},
-      {"typ":"mc","frage":"Was ist Vishing?","optionen":["Voice-Phishing per Telefonanruf","Ein Virus","Visual Hacking","Virtual Switching"],"antwort":0},
-      {"typ":"mc","frage":"Was ist ein Trojaner?","optionen":["Software die sich selbst reproduziert","Ein Programm das sich hinter nützlicher Software versteckt und schädliche Aktivitäten durchführt","Eine Firewall","Ein Verschlüsselungsverfahren"],"antwort":1},
-      {"typ":"mc","frage":"Welche Maßnahme gehört NICHT zur Vermeidung von Phishing?","optionen":["Virenscanner mit Phishing-Warnung installieren","Niemals TANs aufgrund einer E-Mail eingeben","Auf mangelnde Rechtschreibung achten","Alle Ports öffnen"],"antwort":3},
-      {"typ":"mc","frage":"Was unterscheidet einen Datenschutzbeauftragten von einem IT-Sicherheitsbeauftragten?","optionen":["Sie haben die gleiche Aufgabe","Datenschutz schützt personenbezogene Daten, IT-Sicherheit schützt IT-Systeme generell","Datenschutz ist nur für Behörden relevant","IT-Sicherheit ist nur für Cloud relevant"],"antwort":1},
-      {"typ":"mc","frage":"Was bedeutet 'Security by Design'?","optionen":["Sicherheit erst nach Fertigstellung prüfen","Sicherheitsaspekte von Anfang an in die Entwicklung einbeziehen","Nur Design-Sicherheit","Sicherheit durch Firewalls"],"antwort":1},
-      {"typ":"mc","frage":"Was ist Pharming?","optionen":["Manipulation der DNS-Abfragen um Benutzer auf gefälschte Websites umzuleiten","Landwirtschaftliche Software","Ein Backup-Verfahren","Eine Firewall-Konfiguration"],"antwort":0}
-    ]
+      {
+        "typ": "mc",
+        "frage": "Welche drei Schutzziele der Informationssicherheit gibt es?",
+        "optionen": [
+          "Verfügbarkeit, Vertraulichkeit, Integrität",
+          "Sicherheit, Schnelligkeit, Stabilität",
+          "Backup, Recovery, Monitoring",
+          "Authentizität, Autorisierung, Accounting"
+        ],
+        "antwort": 0
+      },
+      {
+        "typ": "freitext",
+        "frage": "Was bedeutet Vertraulichkeit?",
+        "antwort": "Daten dürfen nur von berechtigten Personen eingesehen oder offengelegt werden"
+      },
+      {
+        "typ": "freitext",
+        "frage": "Was bedeutet Integrität?",
+        "antwort": "Es darf nicht möglich sein Daten unbemerkt zu ändern, die Korrektheit muss gegeben sein"
+      },
+      {
+        "typ": "freitext",
+        "frage": "Was bedeutet Verfügbarkeit?",
+        "antwort": "Autorisierte Benutzer müssen Zugang zu den Informationen und Systemen haben"
+      },
+      {
+        "typ": "mc",
+        "frage": "Seit wann gilt die DSGVO?",
+        "optionen": [
+          "Mai 2016",
+          "Mai 2018",
+          "Januar 2020",
+          "März 2021"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Ab wie vielen Personen, die automatisiert personenbezogene Daten verarbeiten, muss ein Datenschutzbeauftragter benannt werden?",
+        "optionen": [
+          "5",
+          "10",
+          "20",
+          "50"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist Phishing?",
+        "optionen": [
+          "Ein Verschlüsselungsverfahren",
+          "Gefälschte Websites/E-Mails zum Ermitteln vertraulicher Daten",
+          "Ein Backup-Verfahren",
+          "Eine Firewall-Regel"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "freitext",
+        "frage": "Was ist Ransomware?",
+        "antwort": "Software die Daten auf fremden Systemen verschlüsselt oder den Zugang blockiert um Lösegeld zu erpressen"
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist ein DDoS-Angriff?",
+        "optionen": [
+          "Ein Virus",
+          "Eine Attacke, die einen Dienst durch massenhaft Anfragen aus verschiedenen Quellen überlastet",
+          "Ein Phishing-Versuch",
+          "Ein Backup-Fehler"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist der Unterschied zwischen symmetrischer und asymmetrischer Verschlüsselung?",
+        "optionen": [
+          "Symmetrisch nutzt einen Schlüssel, asymmetrisch nutzt ein Schlüsselpaar (öffentlich/privat)",
+          "Es gibt keinen Unterschied",
+          "Symmetrisch ist immer unsicherer",
+          "Asymmetrisch braucht keinen Schlüssel"
+        ],
+        "antwort": 0
+      },
+      {
+        "typ": "mc",
+        "frage": "Welches Verschlüsselungsverfahren nutzt WPA2?",
+        "optionen": [
+          "RSA",
+          "AES",
+          "DES",
+          "MD5"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist das BSI?",
+        "optionen": [
+          "Bundesamt für Statistik",
+          "Bundesamt für Sicherheit in der Informationstechnik",
+          "Bundes-Software-Institut",
+          "Behörde für System-Integration"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "freitext",
+        "frage": "Was sind die Rechte der Betroffenen laut DSGVO? (3 nennen)",
+        "antwort": "Recht auf Auskunft, Recht auf Berichtigung, Recht auf Löschung"
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist Vishing?",
+        "optionen": [
+          "Voice-Phishing per Telefonanruf",
+          "Ein Virus",
+          "Visual Hacking",
+          "Virtual Switching"
+        ],
+        "antwort": 0
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist ein Trojaner?",
+        "optionen": [
+          "Software die sich selbst reproduziert",
+          "Ein Programm das sich hinter nützlicher Software versteckt und schädliche Aktivitäten durchführt",
+          "Eine Firewall",
+          "Ein Verschlüsselungsverfahren"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Welche Maßnahme gehört NICHT zur Vermeidung von Phishing?",
+        "optionen": [
+          "Virenscanner mit Phishing-Warnung installieren",
+          "Niemals TANs aufgrund einer E-Mail eingeben",
+          "Auf mangelnde Rechtschreibung achten",
+          "Alle Ports öffnen"
+        ],
+        "antwort": 3
+      },
+      {
+        "typ": "mc",
+        "frage": "Was unterscheidet einen Datenschutzbeauftragten von einem IT-Sicherheitsbeauftragten?",
+        "optionen": [
+          "Sie haben die gleiche Aufgabe",
+          "Datenschutz schützt personenbezogene Daten, IT-Sicherheit schützt IT-Systeme generell",
+          "Datenschutz ist nur für Behörden relevant",
+          "IT-Sicherheit ist nur für Cloud relevant"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was bedeutet 'Security by Design'?",
+        "optionen": [
+          "Sicherheit erst nach Fertigstellung prüfen",
+          "Sicherheitsaspekte von Anfang an in die Entwicklung einbeziehen",
+          "Nur Design-Sicherheit",
+          "Sicherheit durch Firewalls"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist Pharming?",
+        "optionen": [
+          "Manipulation der DNS-Abfragen um Benutzer auf gefälschte Websites umzuleiten",
+          "Landwirtschaftliche Software",
+          "Ein Backup-Verfahren",
+          "Eine Firewall-Konfiguration"
+        ],
+        "antwort": 0
+      }
+    ],
+    "lernfeld": "LF2: IT-Arbeitsplätze ausstatten"
   },
   {
     "thema": "IT-Systeme & Hardware",
     "emoji": "🖥️",
     "fragen": [
-      {"typ":"mc","frage":"Was ist der Unterschied zwischen BIOS und UEFI?","optionen":["UEFI ist neuer, grafisch, schneller und direkt updatebar; BIOS ist älter und nur mit Tastatur bedienbar","Es gibt keinen Unterschied","BIOS ist neuer als UEFI","UEFI kann keine Festplatten >2TB verwalten"],"antwort":0},
-      {"typ":"mc","frage":"Was ist eine Vollsicherung (Vollbackup)?","optionen":["Nur geänderte Daten sichern","Komplettes Abbild aller Daten","Nur gelöschte Daten sichern","Nur neue Dateien sichern"],"antwort":1},
-      {"typ":"freitext","frage":"Was ist eine differenzielle Sicherung?","antwort":"Alle Daten die sich seit der letzten Vollsicherung geändert haben werden gesichert"},
-      {"typ":"freitext","frage":"Was ist eine inkrementelle Sicherung?","antwort":"Nur das was sich seit der letzten Sicherung (Voll oder inkrementell) geändert hat wird gesichert"},
-      {"typ":"mc","frage":"Was bedeutet RAID?","optionen":["Random Access Internet Device","Redundant Array of Independent Disks","Remote Access Identification","Relational Array Index Database"],"antwort":1},
-      {"typ":"mc","frage":"Was ist IaaS?","optionen":["Internet as a Service","Infrastructure as a Service – virtuelle Hardware","Integration as a Service","Interface as a Service"],"antwort":1},
-      {"typ":"mc","frage":"Was ist SaaS?","optionen":["Storage as a Service","Software as a Service – Software über die Cloud nutzen","System as a Service","Security as a Service"],"antwort":1},
-      {"typ":"mc","frage":"Was ist PaaS?","optionen":["Platform as a Service – Entwicklungsplattform mieten","Process as a Service","Protocol as a Service","Performance as a Service"],"antwort":0},
-      {"typ":"mc","frage":"Was ist ein Hypervisor vom Typ 1 (Bare Metal)?","optionen":["Läuft als Anwendung im Betriebssystem","Setzt direkt auf der Hardware auf und verwaltet Ressourcen effizient","Ein Netzwerkprotokoll","Eine Firewall"],"antwort":1},
-      {"typ":"mc","frage":"Was ist ein Snapshot bei Virtualisierung?","optionen":["Ein Screenshot","Ein Abbild einer VM mit Status, Konfiguration und Datenträgerinhalten","Ein Netzwerk-Scan","Ein Backup-Band"],"antwort":1},
-      {"typ":"mc","frage":"Was ist der Unterschied zwischen DAS, NAS und SAN?","optionen":["Es gibt keinen Unterschied","DAS ist direkt angeschlossen, NAS über Ethernet, SAN über Glasfaser für Großunternehmen","Alle nutzen das gleiche Protokoll","DAS ist cloud-basiert"],"antwort":1},
-      {"typ":"mc","frage":"Wofür steht OEM?","optionen":["Original Equipment Manufacturer","Open Enterprise Management","Online Extension Module","Operating Environment Manager"],"antwort":0},
-      {"typ":"mc","frage":"Was ist der Unterschied zwischen Compiler und Interpreter?","optionen":["Compiler übersetzt den gesamten Quellcode in Maschinensprache, Interpreter verarbeitet Zeile für Zeile","Es gibt keinen Unterschied","Interpreter ist schneller als Compiler","Compiler funktioniert nur für Java"],"antwort":0},
-      {"typ":"mc","frage":"Was ist eine Private Cloud?","optionen":["Cloud im eigenen Unternehmen (Intranet)","Cloud von Dropbox","Öffentliche Cloud","Eine VPN-Verbindung"],"antwort":0},
-      {"typ":"mc","frage":"Welche USV-Klasse bietet den besten Schutz?","optionen":["Klasse 3 (VFD/Offline)","Klasse 2 (VI/Line-Interaktiv)","Klasse 1 (VFI/Online-Doppelwandler)","Alle gleich"],"antwort":2},
-      {"typ":"freitext","frage":"Was bedeutet Hyperthreading?","antwort":"Ein physischer Kern wird in zwei logische Threads aufgeteilt für unterschiedliche Arbeiten"},
-      {"typ":"mc","frage":"Was ist das Großvater-Vater-Sohn-Prinzip bei Datensicherung?","optionen":["3 Generationen: 12 monatliche, 4 wöchentliche, 4 tägliche Sicherungen","Ein RAID-Level","Ein Verschlüsselungsverfahren","Ein Netzwerkprotokoll"],"antwort":0},
-      {"typ":"mc","frage":"Was ist SO-DIMM?","optionen":["Ein Server-RAM-Typ","RAM-Riegel für Notebooks (kleiner Formfaktor)","Ein SSD-Typ","Ein Netzwerkkabel"],"antwort":1}
-    ]
+      {
+        "typ": "mc",
+        "frage": "Was ist der Unterschied zwischen BIOS und UEFI?",
+        "optionen": [
+          "UEFI ist neuer, grafisch, schneller und direkt updatebar; BIOS ist älter und nur mit Tastatur bedienbar",
+          "Es gibt keinen Unterschied",
+          "BIOS ist neuer als UEFI",
+          "UEFI kann keine Festplatten >2TB verwalten"
+        ],
+        "antwort": 0
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist eine Vollsicherung (Vollbackup)?",
+        "optionen": [
+          "Nur geänderte Daten sichern",
+          "Komplettes Abbild aller Daten",
+          "Nur gelöschte Daten sichern",
+          "Nur neue Dateien sichern"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "freitext",
+        "frage": "Was ist eine differenzielle Sicherung?",
+        "antwort": "Alle Daten die sich seit der letzten Vollsicherung geändert haben werden gesichert"
+      },
+      {
+        "typ": "freitext",
+        "frage": "Was ist eine inkrementelle Sicherung?",
+        "antwort": "Nur das was sich seit der letzten Sicherung (Voll oder inkrementell) geändert hat wird gesichert"
+      },
+      {
+        "typ": "mc",
+        "frage": "Was bedeutet RAID?",
+        "optionen": [
+          "Random Access Internet Device",
+          "Redundant Array of Independent Disks",
+          "Remote Access Identification",
+          "Relational Array Index Database"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist IaaS?",
+        "optionen": [
+          "Internet as a Service",
+          "Infrastructure as a Service – virtuelle Hardware",
+          "Integration as a Service",
+          "Interface as a Service"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist SaaS?",
+        "optionen": [
+          "Storage as a Service",
+          "Software as a Service – Software über die Cloud nutzen",
+          "System as a Service",
+          "Security as a Service"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist PaaS?",
+        "optionen": [
+          "Platform as a Service – Entwicklungsplattform mieten",
+          "Process as a Service",
+          "Protocol as a Service",
+          "Performance as a Service"
+        ],
+        "antwort": 0
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist ein Hypervisor vom Typ 1 (Bare Metal)?",
+        "optionen": [
+          "Läuft als Anwendung im Betriebssystem",
+          "Setzt direkt auf der Hardware auf und verwaltet Ressourcen effizient",
+          "Ein Netzwerkprotokoll",
+          "Eine Firewall"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist ein Snapshot bei Virtualisierung?",
+        "optionen": [
+          "Ein Screenshot",
+          "Ein Abbild einer VM mit Status, Konfiguration und Datenträgerinhalten",
+          "Ein Netzwerk-Scan",
+          "Ein Backup-Band"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist der Unterschied zwischen DAS, NAS und SAN?",
+        "optionen": [
+          "Es gibt keinen Unterschied",
+          "DAS ist direkt angeschlossen, NAS über Ethernet, SAN über Glasfaser für Großunternehmen",
+          "Alle nutzen das gleiche Protokoll",
+          "DAS ist cloud-basiert"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Wofür steht OEM?",
+        "optionen": [
+          "Original Equipment Manufacturer",
+          "Open Enterprise Management",
+          "Online Extension Module",
+          "Operating Environment Manager"
+        ],
+        "antwort": 0
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist der Unterschied zwischen Compiler und Interpreter?",
+        "optionen": [
+          "Compiler übersetzt den gesamten Quellcode in Maschinensprache, Interpreter verarbeitet Zeile für Zeile",
+          "Es gibt keinen Unterschied",
+          "Interpreter ist schneller als Compiler",
+          "Compiler funktioniert nur für Java"
+        ],
+        "antwort": 0
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist eine Private Cloud?",
+        "optionen": [
+          "Cloud im eigenen Unternehmen (Intranet)",
+          "Cloud von Dropbox",
+          "Öffentliche Cloud",
+          "Eine VPN-Verbindung"
+        ],
+        "antwort": 0
+      },
+      {
+        "typ": "mc",
+        "frage": "Welche USV-Klasse bietet den besten Schutz?",
+        "optionen": [
+          "Klasse 3 (VFD/Offline)",
+          "Klasse 2 (VI/Line-Interaktiv)",
+          "Klasse 1 (VFI/Online-Doppelwandler)",
+          "Alle gleich"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "freitext",
+        "frage": "Was bedeutet Hyperthreading?",
+        "antwort": "Ein physischer Kern wird in zwei logische Threads aufgeteilt für unterschiedliche Arbeiten"
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist das Großvater-Vater-Sohn-Prinzip bei Datensicherung?",
+        "optionen": [
+          "3 Generationen: 12 monatliche, 4 wöchentliche, 4 tägliche Sicherungen",
+          "Ein RAID-Level",
+          "Ein Verschlüsselungsverfahren",
+          "Ein Netzwerkprotokoll"
+        ],
+        "antwort": 0
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist SO-DIMM?",
+        "optionen": [
+          "Ein Server-RAM-Typ",
+          "RAM-Riegel für Notebooks (kleiner Formfaktor)",
+          "Ein SSD-Typ",
+          "Ein Netzwerkkabel"
+        ],
+        "antwort": 1
+      }
+    ],
+    "lernfeld": "LF2: IT-Arbeitsplätze ausstatten"
   },
   {
     "thema": "Netzwerktechnik",
     "emoji": "🌐",
     "fragen": [
-      {"typ":"mc","frage":"Wie viele Schichten hat das OSI-Modell?","optionen":["4","5","7","8"],"antwort":2},
-      {"typ":"mc","frage":"Wie viele Schichten hat das TCP/IP-Modell?","optionen":["3","4","5","7"],"antwort":1},
-      {"typ":"mc","frage":"Auf welcher OSI-Schicht arbeitet ein Switch?","optionen":["Schicht 1 (Physisch)","Schicht 2 (Sicherung/Data Link)","Schicht 3 (Vermittlung)","Schicht 4 (Transport)"],"antwort":1},
-      {"typ":"mc","frage":"Auf welcher OSI-Schicht arbeitet ein Router?","optionen":["Schicht 1","Schicht 2","Schicht 3 (Vermittlung/Network)","Schicht 4"],"antwort":2},
-      {"typ":"mc","frage":"Welches Protokoll wird für die Namensauflösung verwendet?","optionen":["DHCP","DNS","HTTP","FTP"],"antwort":1},
-      {"typ":"mc","frage":"Welcher Port wird standardmäßig für HTTPS verwendet?","optionen":["80","22","443","8080"],"antwort":2},
-      {"typ":"mc","frage":"Welcher Port wird für SSH verwendet?","optionen":["21","22","23","25"],"antwort":1},
-      {"typ":"mc","frage":"Was ist der Unterschied zwischen TCP und UDP?","optionen":["TCP ist verbindungslos, UDP ist verbindungsorientiert","TCP ist verbindungsorientiert und zuverlässig, UDP ist verbindungslos und schneller","Es gibt keinen Unterschied","UDP ist sicherer als TCP"],"antwort":1},
-      {"typ":"freitext","frage":"Wofür steht DHCP?","antwort":"Dynamic Host Configuration Protocol"},
-      {"typ":"mc","frage":"Welche Reihenfolge hat der DHCP-Prozess?","optionen":["Offer, Discover, Request, Acknowledge","Discover, Offer, Request, Acknowledge","Request, Discover, Offer, Acknowledge","Acknowledge, Request, Offer, Discover"],"antwort":1},
-      {"typ":"mc","frage":"Was ist eine DMZ?","optionen":["Dynamic Management Zone","Demilitarisierte Zone – Extra-Netzwerkbereich durch Firewall geschützt","Data Management Zone","Direct Memory Zone"],"antwort":1},
-      {"typ":"mc","frage":"Was ist ein VLAN?","optionen":["Virtual Local Area Network – logische Trennung von Netzwerken","Very Large Area Network","Virtual Link Access Node","Volume Local Area Node"],"antwort":0},
-      {"typ":"mc","frage":"Welches Protokoll verwendet WLAN WPA2?","optionen":["RSA","DES","AES","MD5"],"antwort":2},
-      {"typ":"mc","frage":"Was ist der Unterschied zwischen WPA2-PSK und WPA2-Enterprise?","optionen":["Kein Unterschied","PSK nutzt ein vorkonfiguriertes Passwort, Enterprise nutzt einen RADIUS-Server","PSK ist sicherer","Enterprise ist nur für Heimnetzwerke"],"antwort":1},
-      {"typ":"freitext","frage":"Was ist die Loopback-Adresse in IPv4?","antwort":"127.0.0.1"},
-      {"typ":"mc","frage":"Wie lang ist eine IPv6-Adresse?","optionen":["32 Bit","64 Bit","128 Bit","256 Bit"],"antwort":2},
-      {"typ":"mc","frage":"Was ist DS-Lite?","optionen":["Ein DSL-Standard","Dual Stack Lite – IPv4-Pakete werden in IPv6 getunnelt (4-in-6-Tunnel)","Ein Verschlüsselungsverfahren","Direct Server Lite"],"antwort":1},
-      {"typ":"mc","frage":"In welchem Verkabelungsbereich werden typischerweise Kupferkabel eingesetzt?","optionen":["Primärverkabelung (Campus)","Sekundärverkabelung (Gebäude)","Tertiärverkabelung (Etage)","Alle drei"],"antwort":2},
-      {"typ":"mc","frage":"Was bedeutet PoE?","optionen":["Protocol over Ethernet","Power over Ethernet – Stromversorgung über das Netzwerkkabel","Post Office Extension","Port of Entry"],"antwort":1},
-      {"typ":"mc","frage":"Welches CAT-Kabel wird für die meisten aktuellen Installationen genutzt?","optionen":["Cat 5","Cat 5e","Cat 7","Cat 8"],"antwort":2},
-      {"typ":"mc","frage":"Was ist ICMP?","optionen":["Internet Control Message Protocol – für Kontroll- und Fehlermeldungen (z.B. Ping)","Internet Connection Management Protocol","Integrated Circuit Management Protocol","Internal Communication Message Protocol"],"antwort":0},
-      {"typ":"mc","frage":"Welchen Port nutzt DNS?","optionen":["22","25","53","80"],"antwort":2},
-      {"typ":"mc","frage":"Was ist ein VPN vom Typ Site-to-Site?","optionen":["PC zu PC","PC zu Netzwerk","Netzwerk zu Netzwerk","Browser zu Server"],"antwort":2},
-      {"typ":"mc","frage":"Welchen Port nutzt SMTP?","optionen":["22","25","53","443"],"antwort":1},
-      {"typ":"mc","frage":"Was ist NFS?","optionen":["Network File System – Dateizugriff über Netzwerk (Port 2049)","New File Standard","Node Failover System","Network Firewall Service"],"antwort":0},
-      {"typ":"mc","frage":"Was ist der Standard-Subnetzpräfix bei IPv6?","optionen":["/32","/48","/64","/128"],"antwort":2}
-    ]
+      {
+        "typ": "mc",
+        "frage": "Wie viele Schichten hat das OSI-Modell?",
+        "optionen": [
+          "4",
+          "5",
+          "7",
+          "8"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "mc",
+        "frage": "Wie viele Schichten hat das TCP/IP-Modell?",
+        "optionen": [
+          "3",
+          "4",
+          "5",
+          "7"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Auf welcher OSI-Schicht arbeitet ein Switch?",
+        "optionen": [
+          "Schicht 1 (Physisch)",
+          "Schicht 2 (Sicherung/Data Link)",
+          "Schicht 3 (Vermittlung)",
+          "Schicht 4 (Transport)"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Auf welcher OSI-Schicht arbeitet ein Router?",
+        "optionen": [
+          "Schicht 1",
+          "Schicht 2",
+          "Schicht 3 (Vermittlung/Network)",
+          "Schicht 4"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "mc",
+        "frage": "Welches Protokoll wird für die Namensauflösung verwendet?",
+        "optionen": [
+          "DHCP",
+          "DNS",
+          "HTTP",
+          "FTP"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Welcher Port wird standardmäßig für HTTPS verwendet?",
+        "optionen": [
+          "80",
+          "22",
+          "443",
+          "8080"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "mc",
+        "frage": "Welcher Port wird für SSH verwendet?",
+        "optionen": [
+          "21",
+          "22",
+          "23",
+          "25"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist der Unterschied zwischen TCP und UDP?",
+        "optionen": [
+          "TCP ist verbindungslos, UDP ist verbindungsorientiert",
+          "TCP ist verbindungsorientiert und zuverlässig, UDP ist verbindungslos und schneller",
+          "Es gibt keinen Unterschied",
+          "UDP ist sicherer als TCP"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "freitext",
+        "frage": "Wofür steht DHCP?",
+        "antwort": "Dynamic Host Configuration Protocol"
+      },
+      {
+        "typ": "mc",
+        "frage": "Welche Reihenfolge hat der DHCP-Prozess?",
+        "optionen": [
+          "Offer, Discover, Request, Acknowledge",
+          "Discover, Offer, Request, Acknowledge",
+          "Request, Discover, Offer, Acknowledge",
+          "Acknowledge, Request, Offer, Discover"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist eine DMZ?",
+        "optionen": [
+          "Dynamic Management Zone",
+          "Demilitarisierte Zone – Extra-Netzwerkbereich durch Firewall geschützt",
+          "Data Management Zone",
+          "Direct Memory Zone"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist ein VLAN?",
+        "optionen": [
+          "Virtual Local Area Network – logische Trennung von Netzwerken",
+          "Very Large Area Network",
+          "Virtual Link Access Node",
+          "Volume Local Area Node"
+        ],
+        "antwort": 0
+      },
+      {
+        "typ": "mc",
+        "frage": "Welches Protokoll verwendet WLAN WPA2?",
+        "optionen": [
+          "RSA",
+          "DES",
+          "AES",
+          "MD5"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist der Unterschied zwischen WPA2-PSK und WPA2-Enterprise?",
+        "optionen": [
+          "Kein Unterschied",
+          "PSK nutzt ein vorkonfiguriertes Passwort, Enterprise nutzt einen RADIUS-Server",
+          "PSK ist sicherer",
+          "Enterprise ist nur für Heimnetzwerke"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "freitext",
+        "frage": "Was ist die Loopback-Adresse in IPv4?",
+        "antwort": "127.0.0.1"
+      },
+      {
+        "typ": "mc",
+        "frage": "Wie lang ist eine IPv6-Adresse?",
+        "optionen": [
+          "32 Bit",
+          "64 Bit",
+          "128 Bit",
+          "256 Bit"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist DS-Lite?",
+        "optionen": [
+          "Ein DSL-Standard",
+          "Dual Stack Lite – IPv4-Pakete werden in IPv6 getunnelt (4-in-6-Tunnel)",
+          "Ein Verschlüsselungsverfahren",
+          "Direct Server Lite"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "In welchem Verkabelungsbereich werden typischerweise Kupferkabel eingesetzt?",
+        "optionen": [
+          "Primärverkabelung (Campus)",
+          "Sekundärverkabelung (Gebäude)",
+          "Tertiärverkabelung (Etage)",
+          "Alle drei"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "mc",
+        "frage": "Was bedeutet PoE?",
+        "optionen": [
+          "Protocol over Ethernet",
+          "Power over Ethernet – Stromversorgung über das Netzwerkkabel",
+          "Post Office Extension",
+          "Port of Entry"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Welches CAT-Kabel wird für die meisten aktuellen Installationen genutzt?",
+        "optionen": [
+          "Cat 5",
+          "Cat 5e",
+          "Cat 7",
+          "Cat 8"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist ICMP?",
+        "optionen": [
+          "Internet Control Message Protocol – für Kontroll- und Fehlermeldungen (z.B. Ping)",
+          "Internet Connection Management Protocol",
+          "Integrated Circuit Management Protocol",
+          "Internal Communication Message Protocol"
+        ],
+        "antwort": 0
+      },
+      {
+        "typ": "mc",
+        "frage": "Welchen Port nutzt DNS?",
+        "optionen": [
+          "22",
+          "25",
+          "53",
+          "80"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist ein VPN vom Typ Site-to-Site?",
+        "optionen": [
+          "PC zu PC",
+          "PC zu Netzwerk",
+          "Netzwerk zu Netzwerk",
+          "Browser zu Server"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "mc",
+        "frage": "Welchen Port nutzt SMTP?",
+        "optionen": [
+          "22",
+          "25",
+          "53",
+          "443"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist NFS?",
+        "optionen": [
+          "Network File System – Dateizugriff über Netzwerk (Port 2049)",
+          "New File Standard",
+          "Node Failover System",
+          "Network Firewall Service"
+        ],
+        "antwort": 0
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist der Standard-Subnetzpräfix bei IPv6?",
+        "optionen": [
+          "/32",
+          "/48",
+          "/64",
+          "/128"
+        ],
+        "antwort": 2
+      }
+    ],
+    "lernfeld": "LF4: Netzwerke und Dienste bereitstellen"
   },
   {
     "thema": "Software & Programmierung",
     "emoji": "💻",
     "fragen": [
-      {"typ":"mc","frage":"Was ist ein Integer (int)?","optionen":["Eine Zeichenkette","Eine Ganzzahl","Ein Wahrheitswert","Eine Dezimalzahl"],"antwort":1},
-      {"typ":"mc","frage":"Was ist ein Boolean (bool)?","optionen":["Eine Dezimalzahl","Ein Zeichen","Ein Wahrheitswert (true/false)","Eine Zeichenkette"],"antwort":2},
-      {"typ":"freitext","frage":"Was ist der Unterschied zwischen String und Char?","antwort":"String ist eine Zeichenfolge aus mehreren Zeichen, Char ist nur ein einzelnes Zeichen"},
-      {"typ":"mc","frage":"Was ist Normalisierung bei Datenbanken?","optionen":["Verschlüsselung von Daten","Verringerung von Datenredundanz zur Erhöhung der Datenkonsistenz","Komprimierung der Datenbank","Backup der Datenbank"],"antwort":1},
-      {"typ":"mc","frage":"Bis zur wievielten Normalform wird typischerweise normalisiert?","optionen":["1. Normalform","2. Normalform","3. Normalform","5. Normalform"],"antwort":2},
-      {"typ":"mc","frage":"Was beschreibt ein ER-Modell?","optionen":["Netzwerktopologie","Entitäten, Attribute und Beziehungen in einer Datenbank","Programmablauf","Klassenstruktur"],"antwort":1},
-      {"typ":"mc","frage":"Was ist ein UML-Klassendiagramm?","optionen":["Ein Netzwerkplan","Darstellung von Klassen mit Attributen, Methoden und Beziehungen","Ein Datenbankschema","Ein Gantt-Diagramm"],"antwort":1},
-      {"typ":"mc","frage":"Was ist der Unterschied zwischen prozeduraler und objektorientierter Programmierung?","optionen":["Es gibt keinen Unterschied","Prozedural nutzt Funktionen/Prozeduren, OOP nutzt Klassen und Objekte","OOP ist immer langsamer","Prozedural ist neuer"],"antwort":1},
-      {"typ":"mc","frage":"Was sind die Datenaustauschformate im IT-Bereich?","optionen":["XML, JSON, CSV","HTML, CSS, JS","PNG, JPG, GIF","EXE, DLL, SYS"],"antwort":0},
-      {"typ":"mc","frage":"Was ist eine REST-API?","optionen":["Eine Datenbank","Eine Schnittstelle für den Datenaustausch über HTTP","Ein Betriebssystem","Ein Verschlüsselungsverfahren"],"antwort":1},
-      {"typ":"mc","frage":"Was ist Debugging?","optionen":["Software installieren","Fehler im Code finden und beheben","Eine Datenbank erstellen","Ein Netzwerk konfigurieren"],"antwort":1},
-      {"typ":"freitext","frage":"Wie viele Bit hat ein Byte?","antwort":"8"},
-      {"typ":"mc","frage":"Was ist eine IDE?","optionen":["Internet Data Exchange","Integrierte Entwicklungsumgebung","Internal Database Engine","Input Device Extension"],"antwort":1},
-      {"typ":"mc","frage":"Was ist der Unterschied zwischen Open Source und proprietärer Software?","optionen":["Kein Unterschied","Open Source hat öffentlichen Quellcode, proprietäre Software nicht","Proprietäre Software ist immer kostenlos","Open Source darf nicht verändert werden"],"antwort":1},
-      {"typ":"mc","frage":"Was ist GNU/GPL?","optionen":["Eine Hardware","Eine Software-Lizenz die Nutzung, Änderung und Verbreitung erlaubt (unter gleichen Bedingungen)","Ein Betriebssystem","Ein Compiler"],"antwort":1}
-    ]
+      {
+        "typ": "mc",
+        "frage": "Was ist ein Integer (int)?",
+        "optionen": [
+          "Eine Zeichenkette",
+          "Eine Ganzzahl",
+          "Ein Wahrheitswert",
+          "Eine Dezimalzahl"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist ein Boolean (bool)?",
+        "optionen": [
+          "Eine Dezimalzahl",
+          "Ein Zeichen",
+          "Ein Wahrheitswert (true/false)",
+          "Eine Zeichenkette"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "freitext",
+        "frage": "Was ist der Unterschied zwischen String und Char?",
+        "antwort": "String ist eine Zeichenfolge aus mehreren Zeichen, Char ist nur ein einzelnes Zeichen"
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist Normalisierung bei Datenbanken?",
+        "optionen": [
+          "Verschlüsselung von Daten",
+          "Verringerung von Datenredundanz zur Erhöhung der Datenkonsistenz",
+          "Komprimierung der Datenbank",
+          "Backup der Datenbank"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Bis zur wievielten Normalform wird typischerweise normalisiert?",
+        "optionen": [
+          "1. Normalform",
+          "2. Normalform",
+          "3. Normalform",
+          "5. Normalform"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "mc",
+        "frage": "Was beschreibt ein ER-Modell?",
+        "optionen": [
+          "Netzwerktopologie",
+          "Entitäten, Attribute und Beziehungen in einer Datenbank",
+          "Programmablauf",
+          "Klassenstruktur"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist ein UML-Klassendiagramm?",
+        "optionen": [
+          "Ein Netzwerkplan",
+          "Darstellung von Klassen mit Attributen, Methoden und Beziehungen",
+          "Ein Datenbankschema",
+          "Ein Gantt-Diagramm"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist der Unterschied zwischen prozeduraler und objektorientierter Programmierung?",
+        "optionen": [
+          "Es gibt keinen Unterschied",
+          "Prozedural nutzt Funktionen/Prozeduren, OOP nutzt Klassen und Objekte",
+          "OOP ist immer langsamer",
+          "Prozedural ist neuer"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was sind die Datenaustauschformate im IT-Bereich?",
+        "optionen": [
+          "XML, JSON, CSV",
+          "HTML, CSS, JS",
+          "PNG, JPG, GIF",
+          "EXE, DLL, SYS"
+        ],
+        "antwort": 0
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist eine REST-API?",
+        "optionen": [
+          "Eine Datenbank",
+          "Eine Schnittstelle für den Datenaustausch über HTTP",
+          "Ein Betriebssystem",
+          "Ein Verschlüsselungsverfahren"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist Debugging?",
+        "optionen": [
+          "Software installieren",
+          "Fehler im Code finden und beheben",
+          "Eine Datenbank erstellen",
+          "Ein Netzwerk konfigurieren"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "freitext",
+        "frage": "Wie viele Bit hat ein Byte?",
+        "antwort": "8"
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist eine IDE?",
+        "optionen": [
+          "Internet Data Exchange",
+          "Integrierte Entwicklungsumgebung",
+          "Internal Database Engine",
+          "Input Device Extension"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist der Unterschied zwischen Open Source und proprietärer Software?",
+        "optionen": [
+          "Kein Unterschied",
+          "Open Source hat öffentlichen Quellcode, proprietäre Software nicht",
+          "Proprietäre Software ist immer kostenlos",
+          "Open Source darf nicht verändert werden"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist GNU/GPL?",
+        "optionen": [
+          "Eine Hardware",
+          "Eine Software-Lizenz die Nutzung, Änderung und Verbreitung erlaubt (unter gleichen Bedingungen)",
+          "Ein Betriebssystem",
+          "Ein Compiler"
+        ],
+        "antwort": 1
+      }
+    ],
+    "lernfeld": "LF6: Anwendungen entwickeln"
   },
   {
     "thema": "Arbeits- & Geschäftsprozesse",
     "emoji": "📋",
     "fragen": [
-      {"typ":"mc","frage":"Was ist ein Monopol?","optionen":["Viele Anbieter, viele Nachfrager","Ein einziger Anbieter bedient den gesamten Markt","Wenige Anbieter, viele Nachfrager","Viele Anbieter, ein Nachfrager"],"antwort":1},
-      {"typ":"mc","frage":"Was ist ein Oligopol?","optionen":["Ein Anbieter, viele Nachfrager","Wenige Anbieter beherrschen den Markt","Viele Anbieter und Nachfrager","Kein Angebot"],"antwort":1},
-      {"typ":"freitext","frage":"Was ist ein Polypol?","antwort":"Viele Anbieter und viele Nachfrager"},
-      {"typ":"mc","frage":"Was kennzeichnet einen Käufermarkt?","optionen":["Mehr Nachfrage als Angebot","Mehr Angebot als Nachfrage","Angebot und Nachfrage sind gleich","Keine Nachfrage"],"antwort":1},
-      {"typ":"mc","frage":"Was sind fixe Kosten?","optionen":["Kosten die sich je nach Produktion ändern","Kosten die innerhalb einer bestimmten Zeit konstant bleiben","Nur Materialkosten","Nur Personalkosten"],"antwort":1},
-      {"typ":"mc","frage":"Was ist ein Einliniensystem?","optionen":["Jede Stelle erhält Weisungen von mehreren Vorgesetzten","Jede Stelle bezieht Weisungen von nur einer übergeordneten Stelle","Ein Netzwerksystem","Ein Datenbanksystem"],"antwort":1},
-      {"typ":"mc","frage":"Was ist der Nachteil eines Einliniensystems?","optionen":["Kurze Dienstwege","Lange Befehls- und Dienstwege, Schwerfälligkeit","Zu viele Vorgesetzte","Keine Kontrolle möglich"],"antwort":1},
-      {"typ":"mc","frage":"Was ist das 4-Ohren-Modell?","optionen":["Ein Audioformat","Ein Kommunikationsmodell mit Sachaspekt, Selbstaussage, Beziehung und Appell","Ein Netzwerkprotokoll","Ein Verschlüsselungsverfahren"],"antwort":1},
-      {"typ":"mc","frage":"Was ist Cross-Selling?","optionen":["Ein teureres Produkt verkaufen","Ein zusätzliches Ergänzungsprodukt verkaufen","Einen Rabatt geben","Produkt zurücknehmen"],"antwort":1},
-      {"typ":"mc","frage":"Was ist Upselling?","optionen":["Ein günstigeres Produkt anbieten","Ein teureres/besseres Produkt als nötig verkaufen","Produkt zurücknehmen","Rabatt geben"],"antwort":1},
-      {"typ":"mc","frage":"Was ist die AIDA-Formel?","optionen":["Attention, Interest, Desire, Action","Analyse, Integration, Design, Abschluss","Akquise, Information, Durchführung, Abrechnung","Aufbau, Implementierung, Debugging, Abnahme"],"antwort":0},
-      {"typ":"freitext","frage":"Was ist Wertschöpfung?","antwort":"Die Differenz der erbrachten Leistung eines Unternehmens abzüglich der Vorleistungen"},
-      {"typ":"mc","frage":"Was ist eine Prokura?","optionen":["Eine einfache Vollmacht","Eine umfassende Handlungsvollmacht für alle Geschäfte eines Handelsgewerbes","Eine Kündigung","Ein Arbeitsvertrag"],"antwort":1},
-      {"typ":"mc","frage":"Welche Rechtsform hat die geringste Haftungsbeschränkung?","optionen":["GmbH","AG","Eingetragener Kaufmann (haftet mit allem)","KG"],"antwort":2},
-      {"typ":"mc","frage":"Wie hoch ist das Startkapital einer GmbH?","optionen":["10.000 €","25.000 €","50.000 €","100.000 €"],"antwort":1},
-      {"typ":"mc","frage":"Welchem Wirtschaftssektor gehört die Dienstleistungsbranche an?","optionen":["Primärer Sektor","Sekundärer Sektor","Tertiärer Sektor","Quartärer Sektor"],"antwort":2},
-      {"typ":"mc","frage":"Was ist eine SWOT-Analyse?","optionen":["Stärken, Schwächen, Chancen, Risiken eines Projekts analysieren","Ein Sicherheits-Tool","Ein Programmierframework","Ein Netzwerkprotokoll"],"antwort":0},
-      {"typ":"mc","frage":"Wie lautet die Formel für Wirtschaftlichkeit?","optionen":["Gewinn × 100 / Kapital","Ertrag / Aufwand","Ausbringungsmenge / Einsatzmenge","Umsatz – Kosten"],"antwort":1}
-    ]
+      {
+        "typ": "mc",
+        "frage": "Was ist ein Monopol?",
+        "optionen": [
+          "Viele Anbieter, viele Nachfrager",
+          "Ein einziger Anbieter bedient den gesamten Markt",
+          "Wenige Anbieter, viele Nachfrager",
+          "Viele Anbieter, ein Nachfrager"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist ein Oligopol?",
+        "optionen": [
+          "Ein Anbieter, viele Nachfrager",
+          "Wenige Anbieter beherrschen den Markt",
+          "Viele Anbieter und Nachfrager",
+          "Kein Angebot"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "freitext",
+        "frage": "Was ist ein Polypol?",
+        "antwort": "Viele Anbieter und viele Nachfrager"
+      },
+      {
+        "typ": "mc",
+        "frage": "Was kennzeichnet einen Käufermarkt?",
+        "optionen": [
+          "Mehr Nachfrage als Angebot",
+          "Mehr Angebot als Nachfrage",
+          "Angebot und Nachfrage sind gleich",
+          "Keine Nachfrage"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was sind fixe Kosten?",
+        "optionen": [
+          "Kosten die sich je nach Produktion ändern",
+          "Kosten die innerhalb einer bestimmten Zeit konstant bleiben",
+          "Nur Materialkosten",
+          "Nur Personalkosten"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist ein Einliniensystem?",
+        "optionen": [
+          "Jede Stelle erhält Weisungen von mehreren Vorgesetzten",
+          "Jede Stelle bezieht Weisungen von nur einer übergeordneten Stelle",
+          "Ein Netzwerksystem",
+          "Ein Datenbanksystem"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist der Nachteil eines Einliniensystems?",
+        "optionen": [
+          "Kurze Dienstwege",
+          "Lange Befehls- und Dienstwege, Schwerfälligkeit",
+          "Zu viele Vorgesetzte",
+          "Keine Kontrolle möglich"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist das 4-Ohren-Modell?",
+        "optionen": [
+          "Ein Audioformat",
+          "Ein Kommunikationsmodell mit Sachaspekt, Selbstaussage, Beziehung und Appell",
+          "Ein Netzwerkprotokoll",
+          "Ein Verschlüsselungsverfahren"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist Cross-Selling?",
+        "optionen": [
+          "Ein teureres Produkt verkaufen",
+          "Ein zusätzliches Ergänzungsprodukt verkaufen",
+          "Einen Rabatt geben",
+          "Produkt zurücknehmen"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist Upselling?",
+        "optionen": [
+          "Ein günstigeres Produkt anbieten",
+          "Ein teureres/besseres Produkt als nötig verkaufen",
+          "Produkt zurücknehmen",
+          "Rabatt geben"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist die AIDA-Formel?",
+        "optionen": [
+          "Attention, Interest, Desire, Action",
+          "Analyse, Integration, Design, Abschluss",
+          "Akquise, Information, Durchführung, Abrechnung",
+          "Aufbau, Implementierung, Debugging, Abnahme"
+        ],
+        "antwort": 0
+      },
+      {
+        "typ": "freitext",
+        "frage": "Was ist Wertschöpfung?",
+        "antwort": "Die Differenz der erbrachten Leistung eines Unternehmens abzüglich der Vorleistungen"
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist eine Prokura?",
+        "optionen": [
+          "Eine einfache Vollmacht",
+          "Eine umfassende Handlungsvollmacht für alle Geschäfte eines Handelsgewerbes",
+          "Eine Kündigung",
+          "Ein Arbeitsvertrag"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Welche Rechtsform hat die geringste Haftungsbeschränkung?",
+        "optionen": [
+          "GmbH",
+          "AG",
+          "Eingetragener Kaufmann (haftet mit allem)",
+          "KG"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "mc",
+        "frage": "Wie hoch ist das Startkapital einer GmbH?",
+        "optionen": [
+          "10.000 €",
+          "25.000 €",
+          "50.000 €",
+          "100.000 €"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Welchem Wirtschaftssektor gehört die Dienstleistungsbranche an?",
+        "optionen": [
+          "Primärer Sektor",
+          "Sekundärer Sektor",
+          "Tertiärer Sektor",
+          "Quartärer Sektor"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist eine SWOT-Analyse?",
+        "optionen": [
+          "Stärken, Schwächen, Chancen, Risiken eines Projekts analysieren",
+          "Ein Sicherheits-Tool",
+          "Ein Programmierframework",
+          "Ein Netzwerkprotokoll"
+        ],
+        "antwort": 0
+      },
+      {
+        "typ": "mc",
+        "frage": "Wie lautet die Formel für Wirtschaftlichkeit?",
+        "optionen": [
+          "Gewinn × 100 / Kapital",
+          "Ertrag / Aufwand",
+          "Ausbringungsmenge / Einsatzmenge",
+          "Umsatz – Kosten"
+        ],
+        "antwort": 1
+      }
+    ],
+    "lernfeld": "LF1: Das Unternehmen präsentieren"
   },
   {
     "thema": "Verträge & Leistungserbringung",
     "emoji": "📄",
     "fragen": [
-      {"typ":"mc","frage":"Was ist ein Service Level Agreement (SLA)?","optionen":["Ein Kaufvertrag","Eine Vereinbarung über die Qualität und den Umfang von Dienstleistungen","Eine Kündigung","Ein Datenschutzgesetz"],"antwort":1},
-      {"typ":"mc","frage":"Was ist First-Level-Support?","optionen":["Entwickler lösen das Problem","Erste Anlaufstelle für Kundenanfragen, einfache Probleme lösen","Hardware-Reparatur","Geschäftsführung"],"antwort":1},
-      {"typ":"mc","frage":"Was gehört in ein Abnahmeprotokoll?","optionen":["Nur die Unterschrift","Gegenstand, Beteiligte, Datum, Feststellungen, Vereinbarungen, Unterschriften","Nur das Datum","Nur der Preis"],"antwort":1},
-      {"typ":"mc","frage":"Was ist eine Schlechtleistung?","optionen":["Ware wird nicht geliefert","Die gelieferte Ware hat Mängel","Die falsche Ware wird geliefert","Zu wenig Ware wird geliefert"],"antwort":1},
-      {"typ":"mc","frage":"Wann darf man eine Paketannahme verweigern?","optionen":["Immer","Bei falscher Adressierung, äußerer Beschädigung oder falscher Stückzahl","Nie","Nur am Wochenende"],"antwort":1},
-      {"typ":"freitext","frage":"Was ist der Unterschied zwischen einem Werkvertrag und einem Dienstvertrag?","antwort":"Beim Werkvertrag wird ein bestimmtes Ergebnis/Werk geschuldet, beim Dienstvertrag wird die Tätigkeit selbst geschuldet"},
-      {"typ":"mc","frage":"Was ist eine Nachkalkulation?","optionen":["Kostenplanung vor dem Projekt","Vergleich der tatsächlichen Kosten mit den geplanten Kosten nach Projektende","Ein Netzwerktest","Eine Datenbankabfrage"],"antwort":1},
-      {"typ":"mc","frage":"Was ist IMAC/R/D?","optionen":["Ein Netzwerkprotokoll","Install, Move, Add, Change, Remove, Dispose – Lebenszyklus von Hardware","Ein Programmierframework","Ein Cloud-Service"],"antwort":1}
-    ]
+      {
+        "typ": "mc",
+        "frage": "Was ist ein Service Level Agreement (SLA)?",
+        "optionen": [
+          "Ein Kaufvertrag",
+          "Eine Vereinbarung über die Qualität und den Umfang von Dienstleistungen",
+          "Eine Kündigung",
+          "Ein Datenschutzgesetz"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist First-Level-Support?",
+        "optionen": [
+          "Entwickler lösen das Problem",
+          "Erste Anlaufstelle für Kundenanfragen, einfache Probleme lösen",
+          "Hardware-Reparatur",
+          "Geschäftsführung"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was gehört in ein Abnahmeprotokoll?",
+        "optionen": [
+          "Nur die Unterschrift",
+          "Gegenstand, Beteiligte, Datum, Feststellungen, Vereinbarungen, Unterschriften",
+          "Nur das Datum",
+          "Nur der Preis"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist eine Schlechtleistung?",
+        "optionen": [
+          "Ware wird nicht geliefert",
+          "Die gelieferte Ware hat Mängel",
+          "Die falsche Ware wird geliefert",
+          "Zu wenig Ware wird geliefert"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Wann darf man eine Paketannahme verweigern?",
+        "optionen": [
+          "Immer",
+          "Bei falscher Adressierung, äußerer Beschädigung oder falscher Stückzahl",
+          "Nie",
+          "Nur am Wochenende"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "freitext",
+        "frage": "Was ist der Unterschied zwischen einem Werkvertrag und einem Dienstvertrag?",
+        "antwort": "Beim Werkvertrag wird ein bestimmtes Ergebnis/Werk geschuldet, beim Dienstvertrag wird die Tätigkeit selbst geschuldet"
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist eine Nachkalkulation?",
+        "optionen": [
+          "Kostenplanung vor dem Projekt",
+          "Vergleich der tatsächlichen Kosten mit den geplanten Kosten nach Projektende",
+          "Ein Netzwerktest",
+          "Eine Datenbankabfrage"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist IMAC/R/D?",
+        "optionen": [
+          "Ein Netzwerkprotokoll",
+          "Install, Move, Add, Change, Remove, Dispose – Lebenszyklus von Hardware",
+          "Ein Programmierframework",
+          "Ein Cloud-Service"
+        ],
+        "antwort": 1
+      }
+    ],
+    "lernfeld": "LF1: Das Unternehmen präsentieren"
   },
   {
     "thema": "Elektrotechnik & Rechnen",
     "emoji": "⚡",
     "fragen": [
-      {"typ":"mc","frage":"Was ist die Formel für elektrische Leistung?","optionen":["P = U / I","P = U × I","P = I / U","P = U + I"],"antwort":1},
-      {"typ":"mc","frage":"Was ist 1 GiB in Bytes?","optionen":["1.000.000.000 Bytes","1.073.741.824 Bytes","1.048.576 Bytes","1.024 Bytes"],"antwort":1},
-      {"typ":"mc","frage":"Was ist der Unterschied zwischen GB und GiB?","optionen":["Kein Unterschied","GB = 1000³ Bytes (Dezimal), GiB = 1024³ Bytes (Binär)","GiB ist kleiner als GB","GB wird nur für RAM verwendet"],"antwort":1},
-      {"typ":"freitext","frage":"Wie viel ist 1 Megahertz in Hertz?","antwort":"1000000"},
-      {"typ":"mc","frage":"Was ist DDR-SDRAM?","optionen":["Single Data Rate RAM","Double Data Rate RAM – doppelte Datenübertragungsrate","Direct Data RAM","Dynamic Data Rate RAM"],"antwort":1},
-      {"typ":"mc","frage":"Wie berechnet man die Übertragungsrate von DDR-RAM?","optionen":["Speichertakt × Prefetching-Faktor × Busbreite / 8","Speichertakt + Busbreite","Speichertakt / Prefetching-Faktor","Busbreite × 8"],"antwort":0},
-      {"typ":"mc","frage":"Was ist der Unterschied zwischen serieller und paralleler Datenübertragung?","optionen":["Kein Unterschied","Seriell überträgt Bit für Bit nacheinander, parallel mehrere Bits gleichzeitig","Parallel ist immer langsamer","Seriell nutzt mehr Leitungen"],"antwort":1}
-    ]
+      {
+        "typ": "mc",
+        "frage": "Was ist die Formel für elektrische Leistung?",
+        "optionen": [
+          "P = U / I",
+          "P = U × I",
+          "P = I / U",
+          "P = U + I"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist 1 GiB in Bytes?",
+        "optionen": [
+          "1.000.000.000 Bytes",
+          "1.073.741.824 Bytes",
+          "1.048.576 Bytes",
+          "1.024 Bytes"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist der Unterschied zwischen GB und GiB?",
+        "optionen": [
+          "Kein Unterschied",
+          "GB = 1000³ Bytes (Dezimal), GiB = 1024³ Bytes (Binär)",
+          "GiB ist kleiner als GB",
+          "GB wird nur für RAM verwendet"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "freitext",
+        "frage": "Wie viel ist 1 Megahertz in Hertz?",
+        "antwort": "1000000"
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist DDR-SDRAM?",
+        "optionen": [
+          "Single Data Rate RAM",
+          "Double Data Rate RAM – doppelte Datenübertragungsrate",
+          "Direct Data RAM",
+          "Dynamic Data Rate RAM"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Wie berechnet man die Übertragungsrate von DDR-RAM?",
+        "optionen": [
+          "Speichertakt × Prefetching-Faktor × Busbreite / 8",
+          "Speichertakt + Busbreite",
+          "Speichertakt / Prefetching-Faktor",
+          "Busbreite × 8"
+        ],
+        "antwort": 0
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist der Unterschied zwischen serieller und paralleler Datenübertragung?",
+        "optionen": [
+          "Kein Unterschied",
+          "Seriell überträgt Bit für Bit nacheinander, parallel mehrere Bits gleichzeitig",
+          "Parallel ist immer langsamer",
+          "Seriell nutzt mehr Leitungen"
+        ],
+        "antwort": 1
+      }
+    ],
+    "lernfeld": "LF2: IT-Arbeitsplätze ausstatten"
   },
   {
     "thema": "IoT & MQTT",
     "emoji": "📡",
     "fragen": [
-      {"typ":"freitext","frage":"Wofür steht MQTT?","antwort":"Message Queuing Telemetry Transport"},
-      {"typ":"mc","frage":"Was ist ein MQTT Broker?","optionen":["Ein Endgerät","Empfängt Nachrichten, filtert sie und leitet sie an interessierte Subscriber weiter","Ein Sensor","Eine Datenbank"],"antwort":1},
-      {"typ":"mc","frage":"Was ist ein Publisher bei MQTT?","optionen":["Empfängt Nachrichten","Sendet Nachrichten zu bestimmten Themen an den Broker","Verwaltet den Server","Speichert Daten"],"antwort":1},
-      {"typ":"mc","frage":"Was bedeutet QoS 0 bei MQTT?","optionen":["Nachricht wird exakt einmal zugestellt","At most once – keine Garantie, keine Bestätigung","At least once – mindestens einmal","Nachricht wird nie gesendet"],"antwort":1},
-      {"typ":"mc","frage":"Was bedeutet QoS 2 bei MQTT?","optionen":["At most once","At least once","Exactly once – exakt einmal durch Handshake-Prozedur","Keine Zustellung"],"antwort":2},
-      {"typ":"mc","frage":"Was fällt unter Industrie 4.0?","optionen":["Nur Smartphones","IoT, Sensoren, Big Data, Smart Home, kognitive Systeme","Nur Bürosoftware","Nur Netzwerktechnik"],"antwort":1}
-    ]
+      {
+        "typ": "freitext",
+        "frage": "Wofür steht MQTT?",
+        "antwort": "Message Queuing Telemetry Transport"
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist ein MQTT Broker?",
+        "optionen": [
+          "Ein Endgerät",
+          "Empfängt Nachrichten, filtert sie und leitet sie an interessierte Subscriber weiter",
+          "Ein Sensor",
+          "Eine Datenbank"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist ein Publisher bei MQTT?",
+        "optionen": [
+          "Empfängt Nachrichten",
+          "Sendet Nachrichten zu bestimmten Themen an den Broker",
+          "Verwaltet den Server",
+          "Speichert Daten"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was bedeutet QoS 0 bei MQTT?",
+        "optionen": [
+          "Nachricht wird exakt einmal zugestellt",
+          "At most once – keine Garantie, keine Bestätigung",
+          "At least once – mindestens einmal",
+          "Nachricht wird nie gesendet"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was bedeutet QoS 2 bei MQTT?",
+        "optionen": [
+          "At most once",
+          "At least once",
+          "Exactly once – exakt einmal durch Handshake-Prozedur",
+          "Keine Zustellung"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "mc",
+        "frage": "Was fällt unter Industrie 4.0?",
+        "optionen": [
+          "Nur Smartphones",
+          "IoT, Sensoren, Big Data, Smart Home, kognitive Systeme",
+          "Nur Bürosoftware",
+          "Nur Netzwerktechnik"
+        ],
+        "antwort": 1
+      }
+    ],
+    "lernfeld": "LF7: Cyber-physische Systeme"
   },
   {
     "thema": "Barrierefreiheit & Präsentation",
     "emoji": "♿",
     "fragen": [
-      {"typ":"freitext","frage":"Wofür steht BITV 2.0?","antwort":"Barrierefreie-Informationstechnik-Verordnung"},
-      {"typ":"mc","frage":"Was ist eine Anforderung an barrierefreie Webseiten?","optionen":["Nur bunte Farben verwenden","Bilder mit Alternativtext, Navigation ohne Maus, skalierbare Texte bis 200%","JavaScript deaktivieren","Nur PDF-Dateien anbieten"],"antwort":1},
-      {"typ":"mc","frage":"Welche Aspekte steigern die Qualität einer Präsentation?","optionen":["Möglichst viel Text auf jeder Folie","Struktur, adressatengerechte Aufbereitung, fachliche Korrektheit, flüssiger Vortragsstil, Zeiteinhaltung","Nur Bilder verwenden","Möglichst schnell sprechen"],"antwort":1},
-      {"typ":"mc","frage":"Was ist das Sender-Empfänger-Modell?","optionen":["Ein Netzwerkprotokoll","Ein Kommunikationsmodell: Sender codiert Nachricht → Empfänger decodiert sie","Ein Verschlüsselungsverfahren","Ein Datenbankmodell"],"antwort":1}
+      {
+        "typ": "freitext",
+        "frage": "Wofür steht BITV 2.0?",
+        "antwort": "Barrierefreie-Informationstechnik-Verordnung"
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist eine Anforderung an barrierefreie Webseiten?",
+        "optionen": [
+          "Nur bunte Farben verwenden",
+          "Bilder mit Alternativtext, Navigation ohne Maus, skalierbare Texte bis 200%",
+          "JavaScript deaktivieren",
+          "Nur PDF-Dateien anbieten"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Welche Aspekte steigern die Qualität einer Präsentation?",
+        "optionen": [
+          "Möglichst viel Text auf jeder Folie",
+          "Struktur, adressatengerechte Aufbereitung, fachliche Korrektheit, flüssiger Vortragsstil, Zeiteinhaltung",
+          "Nur Bilder verwenden",
+          "Möglichst schnell sprechen"
+        ],
+        "antwort": 1
+      },
+      {
+        "typ": "mc",
+        "frage": "Was ist das Sender-Empfänger-Modell?",
+        "optionen": [
+          "Ein Netzwerkprotokoll",
+          "Ein Kommunikationsmodell: Sender codiert Nachricht → Empfänger decodiert sie",
+          "Ein Verschlüsselungsverfahren",
+          "Ein Datenbankmodell"
+        ],
+        "antwort": 1
+      }
+    ],
+    "lernfeld": "LF1: Das Unternehmen präsentieren"
+  },
+  {
+    "lernfeld": "LF8: Daten systemübergreifend bereitstellen",
+    "thema": "Datenbanken & SQL",
+    "emoji": "🗄️",
+    "fragen": [
+      {
+        "typ": "multi_freitext",
+        "frage": "Ergänze die Grundbegriffe relationaler Datenbanken:",
+        "antworten": [
+          {
+            "label": "Eindeutiger Identifikator eines Datensatzes",
+            "loesung": "Primärschlüssel"
+          },
+          {
+            "label": "Referenz auf einen Primärschlüssel einer anderen Tabelle",
+            "loesung": "Fremdschlüssel"
+          }
+        ]
+      },
+      {
+        "typ": "multi_freitext",
+        "frage": "Bringe die Normalformen der Normalisierung zusammen:",
+        "antworten": [
+          {
+            "label": "1. Normalform",
+            "loesung": "Atomare Werte"
+          },
+          {
+            "label": "2. Normalform",
+            "loesung": "Volle funktionale Abhängigkeit"
+          },
+          {
+            "label": "3. Normalform",
+            "loesung": "Keine transitiven Abhängigkeiten"
+          }
+        ]
+      },
+      {
+        "typ": "multi_freitext",
+        "frage": "Nenne die 3 Mutationsanomalien bei fehlerhafter Datenbank-Normalisierung:",
+        "antworten": [
+          {
+            "label": "Anomalie 1",
+            "loesung": "Einfügeanomalie"
+          },
+          {
+            "label": "Anomalie 2",
+            "loesung": "Löschanomalie"
+          },
+          {
+            "label": "Anomalie 3",
+            "loesung": "Änderungsanomalie"
+          }
+        ]
+      },
+      {
+        "typ": "mc",
+        "frage": "Welcher SQL Befehl fasst Zeilen zusammen, die in bestimmten Spalten gleiche Werte haben?",
+        "optionen": [
+          "ORDER BY",
+          "JOIN",
+          "GROUP BY",
+          "WHERE"
+        ],
+        "antwort": 2
+      },
+      {
+        "typ": "multi_freitext",
+        "frage": "Zuordnung der Beziehungsarten in ER-Modellen:",
+        "antworten": [
+          {
+            "label": "Verbindung zwischen Master- und Detailtabelle",
+            "loesung": "1:n"
+          },
+          {
+            "label": "Beziehung, die meist über eine Verbindungstabelle aufgelöst werden muss",
+            "loesung": "m:n"
+          }
+        ]
+      }
     ]
   }
 ]
